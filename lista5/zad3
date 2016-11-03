@@ -1,0 +1,15 @@
+int compare_and_swap(int* reg, int testval, int newval)
+{
+    int old_reg_val = *reg;
+    if (old_reg_val == testval)
+       *reg = newval;
+    return old_reg_val;
+}
+
+
+void spinlock(int* lock, void (*)(void) procedure)
+{
+    while(compare_and_swap(lock, 0, 1) == 1);
+    procedure();
+    *lock = 0;
+}

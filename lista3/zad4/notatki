@@ -1,0 +1,34 @@
+erarchia procesów oznacza, że procesy tworzą drzewo.
+
+ps (pokazuje procesy powiązane z terminalem, z którego została wywołana)
+ps -A (pokazuje wszystkie procesy)
+ps -a (wszystkie powiązane z terminalem, z którego została wywołana poza właścicielami grup procesów (właścicielem jest proces bash)) 
+ps -C cmd (filtruje po nazwie procesu)
+ps -u user (filtruje po nazwie właściciela procesu)
+
+Wyświetlenie informacji dla wybranego procesu:
+ps -p 1 -o pid,ppid,uid,pgid,comm
+ps -p 1 -F
+
+Właścicielem procesu init jest proces “0”, co oznacza pewnie brak właściciela.
+
+Znaki w kolumnie STAT:
+        D    nieprzerywalne spanie (uninterruptible sleep)
+        R    chodzi
+        S    przewarywalne spanie (interruptible sleep)
+        T    zatrzymany
+        Z    zombie
+Dodatkowe znaki:
+        <    wysoki priorytet
+        N    niski priorytet
+        L    has pages locked into memory (for real-time and custom IO)
+        s    lider grupy procesów
+        l    jest wielowątkowy
+        +    jest w grupie procesów pierwszoplanowych
+
+
+Wątki jądra są synami procesu “kthreadd”, więc ich PPID jest równy 2. (H przy ps pokazuje wątki)
+ps --ppid 2
+Uruchamiając pstree wątkami powinny być nazwy w {} wyświetlonego drzewa.
+
+

@@ -1,0 +1,35 @@
+Różnice między kill, pkill, xkill:
+kill numer_procesu
+pkill nazwa_procesu (usunie wszystkie procesy o pasujących nazwach)
+xkill (klikamy kursorem myszki na okienko, co zabije odpowiadający mu proces)
+
+Lista sygnałów, które można wysłać:
+kill -l
+
+Domyślnie wysyłany jest sygnał SIGTERM (prosi proces o zakończenie pracy, ale proces może zignorować ten sygnał).
+
+Wznawianie procesu po jego zatrzymaniu:
+kill -CONT numer_procesu
+fg
+ 
+
+ Inspekcja pliku procesu:
+ cat /proc/$(pgrep xeyes)/status
+
+
+ Wysyłanie sygnałów z polecenia zadania:
+ kill -USR1 numer_procesu   10
+ kill -USR2 numer_procesu   12
+ kill -HUP numer_procesu     1
+ kill -INT numer procesu     2
+
+ SigQ - lista zkolejkowanych sygnałów/maksymalna liczba skolejkowanych sygnałów
+ SigPnd - zgłoszone sygnały
+ ShdPnd - zgłoszone, współdzielone sygnały
+ SigBlk - blokowane sygnały
+ SigIgn - ignorowane sygnały
+ SigCgt - złapane sygnały
+
+ Pierwszy wykona się sygnał o najniższym numerze, czyli SIGHUP.
+
+

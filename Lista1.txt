@@ -1,0 +1,208 @@
+﻿SO2016
+
+
+Lista 1
+
+
+Zad1.
+
+
+Przykład 1: chown (change owner)
+        Shell pozwala nam na uruchomienie programu chown.
+        
+System operacyjny zarządza utworzonym procesem, jego przestrzenią pamięciową,
+zapamiętuje stan jego rejestrów (PC, SP), listę otwartych plików, powiązanych procesów itd. (rzeczami na które składa się proces). Ogarnia wirtualizację pamięci.
+
+
+Jądro systemu, zarządza hardwarem oraz udostępna interfejs do korzystania z niego w postaci wywołań systemowych (SYSCALL). Wywołania te mogą być wołane z poziomu usera, kiedy wymagane są działania na poziomie jądra. W tym wypadku byłby to np. chmod (POSIX).
+
+
+Przykład 2: page fault
+        Użytkownik może korzystając z powłoki uruchomić jakiś program.
+
+
+        Program może wykorzystywać różne funkcje udostępnione przez system operacyjny.
+        
+        W trakcie wykonywania programu może wystąpić page fault który zostanie obsłużony przez kernel. W ten sposób nie będzie on widoczny dla użytkownika, ani nawet dla wykonywanego programu. Autor programu nie musi się nawet przejmować możliwością wystąpienia tego problemu.
+
+
+Główne zadania systemu z punktu widzenia programisty: zarządza pamięcią (przydzielanie jej, ochrona dostępu do jej fragmentów, pamięć wirtualna), zapewnia ładną abstrakcję zasobów i zarządza nimi efektywnie. Udostępnia biblioteki i narzędzia przydatne przy tworzeniu oprogramowania.
+
+
+Kernel to najcześciej wykonywane funkcje systemu, które cały czas leżą w pamięci.
+
+
+Zad2.
+Operating System Distribution (dystrybucja)
+ - contains linux kernel, system libraries, extra libraries, usually package manger, extra apps
+ - e.g. Arch, Debian, Fedora, Ubuntu
+ - usually only few apps are exclusive to a particular distribution (installer, non-free apps)
+
+
+Package Manager
+ - f.e. deb
+ - package contains actual files, control files (dependencies, required shared libraries, config script, and install uninstall scripts (optional))
+ - authenticity is verified by checksum available as metadata in package database
+
+
+Comparison
+ - using package manager allows for centralized lookup, addition, update and removal of software
+ - it's probably easier to use
+ - explicitly shows all the dependencies and installed software
+ - may have extra features allowing for faster, better management (removal of orphaned dependencies) of installed programs
+ - packages are installed uniformly, unlike installers which can be different depending on vendor of installed software
+
+
+
+
+
+
+Zad3.
+
+
+Polityka → co jest robione.
+Mechanizm → w jaki sposób jest to robione.
+
+
+Otwieranie drzwi kluczami:
+        Polityka → drzwi otwierane są przez pasujący klucz.
+Mechanizm → drzwi posiadają zamek który może być otwarty tylko przez pasujący klucz
+
+
+Wniosek: przy zmianie polityki trzeba też zmienić mechanizm.
+
+
+Otwieranie drzwi kartą:
+Polityka → np. Karta z odpowiednim kodem może otworzyć drzwi.
+Mechanizm → zdefiniowane kody otwierają drzwi.
+
+
+Wniosek: łatwa zmiana polityki, wymaga zmiany parametrów mechanizmu. Pozwala        na wprowadzenie nowych polityk (grupy, klasy dostępu) niezależnie od mechanizmu.
+
+
+
+
+Inne rozwiazanie: https://sites.google.com/site/mylokesh/policyvsmechanism
+
+
+
+
+Zad4.
+        
+Funkcje jądra systemu operacyjnego:
+* Zarządzanie sprzętem, zarządzanie wykorzystaniem (multiplexing) zasobów (pamięć, CPU, I/O)
+* Poprzez syscalle pozwala na komunikację użytkownika ze sprzętem
+
+
+Przykładowe warunki dla których wywołania systemowe zakończą się niepowodzeniem:
+        Wszędzie gdzie są pointery, to może być error kiedy wychodzą poza address space procesu.
+
+
+fork(void) (tworzy kopię procesu wołającego funkcję) → brak wolnej pamięci, brak wolnej pamięci dla wołającego, (failed  to  allocate  the  necessary  kernel  structures because memory is tight.?), za dużo procesów stworzonych przez użytkownika
+
+
+        kill(pid_t pid, int sig) (wysyła do procesu pid, sygnał sig) → zly sygnał, zły pid(nie ma takiego procesu), nie mamy dostępu do wysyłania sygnału do danego procesu (tylko superuser i owner mogą wysyłać)
+
+
+ mount(const char *type, const char *dir, int flags, void *data) (podłącza zewnętrzny system plików do podanego dir) → (jest dużo) np. brak dostępu (tylko superuser albo dir owner), dir nie istnieje, nazwa ścieżki ma ponad 1023 znaki albo jego część ma ponad 255 znaków(FreeBSD), inny proces posiada referencję na dir(?)
+
+
+
+
+unlink(const char *path) (jesli link to hard link linuxowy, to unlink służy do kasowania hard linków) → plik jest read_only, plik jest folderem(EPERM na linuxie a EISDIR na FreeBSD), error I/O
+
+
+read(int fd, void *buf, size_t nbytes) → deskryptor pliku (fd) jest zły (nie da się otworzyć), I/O error, nbytes jest większe niż INT_MAX, plik nie zezwala na bycie czytanym.
+
+
+If the system call cannot be carried out owing to an invalid parameter or a disk error, count is set to −1, and the error number is put in a global variable “errno”.
+
+
+Zad5.
+        Zadanie (Job) -> program, który dla danych wejściowych produkował dane wyjściowe
+
+
+System wsadowy -> Lata sześćdziesiąte. Pierwsza koncepcja SO, w celu optymalizacji działania komputera. Do “wejścia” pakowana jest lista programów. Monitor (taki system operacyjny) Bierze pierwszy program z brzegu i wykonuje go, aż do wyczerpania zadań. (eliminowało to obsługę ludzką potrzebną do obsługi pojedyńczych programów)
+
+
+Rola monitora -
+1. Przechwytuję kontrolę
+2. Wykonuje najbliższe zadanie
+3. W razie błędu lub po zakończeniu wykonywania programu przejmuje kontrole
+4. Wykonuje następne zadanie
+
+
+Job Control Language- Prymitywny język poleceń dla monitora
+* $JOB - nowe zadanie
+* $FTN - rozpoczecie sekcji FORTRAN (instrukcje kontroli zadania/wybór kompilatora, takie ustawienia, w programie było tylko z czego korzystać [całe instrukcje FORTRANA były na oddzielnych taśmach]) 
+* $LOAD - załaduj kod z taśmy
+* $RUN - Uruchom program
+* $END - Zakończ zadanie
+        
+Czy w dzisiejszych czasach używa się systemów wsadowych??? Chyba nie, a może jednak?
+
+
+Przetwarzania wsadowego używa się do aktualizacji wielkich baz danych, przetwarzania plików, obrazów.
+
+Jakaś chmura od IBM do javowych tasków: webshpere
+
+
+Zad6
+        Wieloprogramowy system wsadowy - Pracuje na sprzęcie z większą ilością pamięci, więc może sobie pozwolić na załadowanie kilku programów na raz (nie musi czekać aż wcześniejszy skończy się wykonywać). System wybiera, które zadanie należy teraz wykonywać.
+        Motywacja -> Przy starszym systemie większość czasu (95%) pochałaniały urządzenia I/O, ponieważ drukarka nie nadążała,a procesor liczył “szybko”. Przykład: Można zlecić drukowanie jakiegoś dłuższego dokumentu, a w czasie działąnia drukarki wykonywać skomplikowane obliczenia na procesorze.
+System z podziałem czasu -> Dostęp do komputera przez wiele terminali z których korzystają ludzie. Co krótki interwał czasowy system przeskakuję na obsługę kolejnego zadania, ładując je do pamięci. Przekłądamy responsywność i możliwości zmian nad efektywność obliczeń (w przeciwieństwie do zwykłych wsadowych gdzie zbieramy zadania i czekamy aż jeden pakiet zadań będzie ukończony aby móc zrobić cokolwiek ze swoim programem, ( i interakcja jest możliwa tylko dla jednego użytkownika ))
+Ewolucja - Potrzebny był system do obsługi w czasie rzeczywistym (obsługa transakcji finansowych)
+        Interaktywny SO - Pozwala wpływać użytkownikowi na SO podczas pracy innego programu
+        Aby SO mógł wykonać program w trakcie działania innego, to musi mieć je oba w pamięci, co oznacza, że byłby wieloprogramowy. Chyba że, rządania usera mogą zostać spełnione przez sam SO?
+
+
+
+
+
+
+
+
+
+
+Zad7.
+Potrzeba istnienia systemu który jest wieloprogramowy, dzieli czas wykonywanych zadań i jest interaktywny zrodziła pomysł na utworzenie procesu. 
+
+
+Proces jest właściwie strukturą danych, która może być wykonywana. W procesie zawarte są instrukcje, dane oraz stan procesu. Każdy proces posiada własną przestrzeń adresową. Proces nie może naruszyć pamięci innego procesu. Procesom może być przyznawana controla lub własność nad pamięcią, kanałami I/O(?), urządzeniami I/O i plikami.  Dzięki temu że proces pamięta swój stan, SO posiada informację o jego priorytecie i jego istnieniu(gdzie jest) może on zostać wywłaszczony, a później przywrócony do pracy.
+
+
+Można powiedzieć że tę definicje można podzielić na dwie części:
+* Posiadanie zasobów →proces
+* Jednostka możliwa do wywłaszczania → wątek
+
+
+Wtedy każdy proces posiada co najmniej jeden wątek.
+Wątki powstały, ponieważ łatwiej jest zarządzać wieloma wątkami niż wieloma procesami.
+
+
+Procesy vs wątki:
+* Procesy są niezależne, wątki nalężą do procesu
+* Procesy potrzebuja wiecej informacji o stanie, ponieważ wątki dzielą stan procesu, jego pamięć itd.
+* Procesy mają własną przestrzeń adresową, a wątki dzielą ją między sobą
+* Procesy mogą się porozumiewać tylko przez zdefiniowany przez system interfejs, np. Syscall kill (wysyla sygnał do danego procesu)
+* Zmiana kontextu pomiędzy wątkami tego samego procesu jest szybsza niż pomiędzy procesami.
+
+
+Zad8.
+
+
+Wywłaszczenie to zmiana procesu na inny bez konieczności kooperacji z tym procesem, ale z zamiarem powrotu do niego.
+
+
+        Do wywłaszczania potrzebne są przerwania, które przywracają kontrolę SO. Mogą one być sygnalizowane przez np. Timer, oczekiwanie na I/O, ponowną dostępność urządzenia I/O. 
+
+
+Po odpowiednim przerwaniu scheduler decyduje któremu procesowi przekazać kontrolę, natomiast dispatcher przekazuje tą kontrolę - zmienia kontekst (zapisuje kontekst starego procesu i wczytuje nowy).
+
+
+Round-robin
+        Kolejkę tasków do wykonania dzielimy na dwie: long-term (jeszcze nie zaczęte) i short-term (procesy które są w pamięci i są gotowe do pracy).
+Algorytm ten zapętla kolejkę short-term i cyklicznie, po równo pracuje na każdym kolejnym procesie z tej kolejki.
+
+
+Taski przechodzą z long-terma do short-terma kiedy dostępne są na to zasoby (pamięć, CPU? Chyba nie może być za wiele na raz). Dodatkowo jest kolejka do każdego urządzenie I/O.

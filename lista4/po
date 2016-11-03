@@ -1,0 +1,344 @@
+COMMAND   PID   USER   FD      TYPE             DEVICE SIZE/OFF    NODE NAME
+firefox 17934 wojtek  cwd       DIR                8,5     4096 4078846 /home/wojtek/MIA/10.24
+firefox 17934 wojtek  rtd       DIR                8,5     4096       2 /
+firefox 17934 wojtek  txt       REG                8,5   121056  789731 /usr/lib/firefox/firefox
+firefox 17934 wojtek  mem       REG                8,5 10558256  795031 /usr/lib/x86_64-linux-gnu/libx265.so.79
+firefox 17934 wojtek  mem       REG                8,5   525368  794604 /usr/lib/x86_64-linux-gnu/liborc-0.4.so.0.25.0
+firefox 17934 wojtek  mem       REG                8,5  3303588 1707144 /usr/share/fonts/truetype/freefont/FreeSerif.ttf
+firefox 17934 wojtek  mem       REG                8,5    14488  793708 /usr/lib/x86_64-linux-gnu/libXss.so.1.0.0
+firefox 17934 wojtek  mem       REG                8,5   138448  786831 /usr/lib/x86_64-linux-gnu/libgomp.so.1.0.0
+firefox 17934 wojtek  mem       REG                8,5    43936  794586 /usr/lib/x86_64-linux-gnu/libnuma.so.1.0.0
+firefox 17934 wojtek  mem       REG                8,5   195624  794819 /usr/lib/x86_64-linux-gnu/libsoxr.so.0.1.1
+firefox 17934 wojtek  mem       REG                8,5   110720  793922 /usr/lib/x86_64-linux-gnu/libcrystalhd.so.3.6
+firefox 17934 wojtek  mem       REG                8,5    55568  794237 /usr/lib/x86_64-linux-gnu/libgsm.so.1.0.12
+firefox 17934 wojtek  mem       REG                8,5   289208  794507 /usr/lib/x86_64-linux-gnu/libmp3lame.so.0.0.0
+firefox 17934 wojtek  mem       REG                8,5 12030904  789262 /usr/lib/x86_64-linux-gnu/libavcodec-ffmpeg.so.56.60.100
+firefox 17934 wojtek  mem       REG                8,5   144240  794595 /usr/lib/x86_64-linux-gnu/libopenjpeg.so.1.5.2
+firefox 17934 wojtek  mem       REG                8,5   301288  794602 /usr/lib/x86_64-linux-gnu/libopus.so.0.5.2
+firefox 17934 wojtek  mem       REG                8,5   869560  794771 /usr/lib/x86_64-linux-gnu/libschroedinger-1.0.so.0.11.0
+firefox 17934 wojtek  mem       REG                8,5    51376  794780 /usr/lib/x86_64-linux-gnu/libshine.so.3.0.1
+firefox 17934 wojtek  mem       REG                8,5    30904  794807 /usr/lib/x86_64-linux-gnu/libsnappy.so.1.3.0
+firefox 17934 wojtek  mem       REG                8,5   100240  794825 /usr/lib/x86_64-linux-gnu/libspeex.so.1.5.0
+firefox 17934 wojtek  mem       REG                8,5   104688  794866 /usr/lib/x86_64-linux-gnu/libtheoradec.so.1.1.4
+firefox 17934 wojtek  mem       REG               0,21 67108904       5 /dev/shm/pulse-shm-2672462537
+firefox 17934 wojtek  mem       REG               0,21 67108904      16 /dev/shm/pulse-shm-2061587642
+firefox 17934 wojtek  mem       REG                8,5 25913104  794331 /usr/lib/x86_64-linux-gnu/libicudata.so.55.1
+firefox 17934 wojtek  mem       REG                8,5  1636360  794345 /usr/lib/x86_64-linux-gnu/libicuuc.so.55.1
+firefox 17934 wojtek  mem       REG                8,5  1805560  795081 /usr/lib/x86_64-linux-gnu/libxml2.so.2.9.3
+firefox 17934 wojtek  mem       REG                8,5   240272  793920 /usr/lib/x86_64-linux-gnu/libcroco-0.6.so.3.0.1
+firefox 17934 wojtek  mem       REG                8,5   225992  794745 /usr/lib/x86_64-linux-gnu/librsvg-2.so.2.40.13
+firefox 17934 wojtek  mem       REG                8,5    10536 1180299 /usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so
+firefox 17934 wojtek  mem       REG                8,5   256360  794868 /usr/lib/x86_64-linux-gnu/libtheoraenc.so.1.1.2
+firefox 17934 wojtek  mem       REG                8,5  2230840  794947 /usr/lib/x86_64-linux-gnu/libvpx.so.3.0.0
+firefox 17934 wojtek  mem       REG                8,5   125104  794884 /usr/lib/x86_64-linux-gnu/libtwolame.so.0.0.0
+firefox 17934 wojtek  mem       REG                8,5   166208  794953 /usr/lib/x86_64-linux-gnu/libwavpack.so.1.1.7
+firefox 17934 wojtek  mem       REG                8,5   375168  794971 /usr/lib/x86_64-linux-gnu/libwebp.so.5.0.4
+firefox 17934 wojtek  mem       REG                8,5   379740 1707134 /usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf
+firefox 17934 wojtek  mem       REG                8,5   137372 1707170 /usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf
+firefox 17934 wojtek  mem       REG               0,21 67108904      13 /dev/shm/pulse-shm-711691963
+firefox 17934 wojtek  mem       REG                8,5    31280 1052585 /usr/lib/x86_64-linux-gnu/libcanberra-0.30/libcanberra-pulse.so
+firefox 17934 wojtek  mem       REG                8,5  1216304  795030 /usr/lib/x86_64-linux-gnu/libx264.so.148
+firefox 17934 wojtek  mem       REG                8,5   700056  795087 /usr/lib/x86_64-linux-gnu/libxvidcore.so.4.3
+firefox 17934 wojtek  DEL       REG                0,5          3375129 /SYSV00000000
+firefox 17934 wojtek  mem       REG                8,5    27016  529114 /lib/x86_64-linux-gnu/libnss_dns-2.23.so
+firefox 17934 wojtek  mem       REG                8,5    10480  529122 /lib/x86_64-linux-gnu/libnss_mdns4_minimal.so.2
+firefox 17934 wojtek  mem       REG                8,5   568728  795103 /usr/lib/x86_64-linux-gnu/libzvbi.so.0.13.2
+firefox 17934 wojtek  mem       REG                8,5   125344  798117 /usr/lib/x86_64-linux-gnu/libva.so.1.3902.0
+firefox 17934 wojtek  mem       REG                8,5   374808  789355 /usr/lib/x86_64-linux-gnu/libavutil-ffmpeg.so.54.31.100
+firefox 17934 wojtek  DEL       REG                0,5          3342360 /SYSV00000000
+firefox 17934 wojtek  mem       REG                8,5   340240 1707132 /usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf
+firefox 17934 wojtek  mem       REG                8,5    81960  786692 /usr/lib/x86_64-linux-gnu/libdbusmenu-gtk3.so.4.0.12
+firefox 17934 wojtek  mem       REG                8,5   114184  786682 /usr/lib/x86_64-linux-gnu/libdbusmenu-glib.so.4.0.12
+firefox 17934 wojtek  mem       REG                8,5   704128 1707129 /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
+firefox 17934 wojtek  mem       REG                8,5   756072 1707130 /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf
+firefox 17934 wojtek  mem       REG                8,5   116728  788885 /usr/lib/x86_64-linux-gnu/libswresample-ffmpeg.so.1.2.101
+firefox 17934 wojtek  mem       REG                8,5  1583624  790109 /usr/lib/firefox/libmozavcodec.so
+firefox 17934 wojtek  mem       REG                8,5   219048  789762 /usr/lib/firefox/libmozavutil.so
+firefox 17934 wojtek  mem       REG                8,5   192328  794141 /usr/lib/x86_64-linux-gnu/libgconf-2.so.4.1.5
+firefox 17934 wojtek  mem       REG                8,5    70730 1707489 /usr/share/fonts/type1/gsfonts/n019004l.pfb
+firefox 17934 wojtek  mem       REG                8,5   333612 1707432 /usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-B.ttf
+firefox 17934 wojtek  mem-r     REG                8,5    32768 3947306 /home/wojtek/.mozilla/firefox/fewd31ot.default/webappsstore.sqlite-shm
+firefox 17934 wojtek  mem       REG                8,5   326061 1704896 /usr/share/glib-2.0/schemas/gschemas.compiled
+firefox 17934 wojtek  mem       REG                8,5   353824 1707439 /usr/share/fonts/truetype/ubuntu-font-family/Ubuntu-R.ttf
+firefox 17934 wojtek  mem       REG                8,5   648432  789669 /usr/lib/firefox/libnssckbi.so
+firefox 17934 wojtek  mem       REG                8,5   509952  789761 /usr/lib/firefox/libfreeblpriv3.so
+firefox 17934 wojtek  mem       REG                8,5   120808  789760 /usr/lib/firefox/libnssdbm3.so
+firefox 17934 wojtek  mem       REG                8,5   224256  789732 /usr/lib/firefox/libsoftokn3.so
+firefox 17934 wojtek  mem       REG                8,5   690360  794942 /usr/lib/x86_64-linux-gnu/libvorbisenc.so.2.0.11
+firefox 17934 wojtek  mem       REG                8,5   477032  793568 /usr/lib/x86_64-linux-gnu/libFLAC.so.8.3.0
+firefox 17934 wojtek  mem       REG                8,5    93128  529110 /lib/x86_64-linux-gnu/libnsl-2.23.so
+firefox 17934 wojtek  mem       REG                8,5    22720  793769 /usr/lib/x86_64-linux-gnu/libasyncns.so.0.3.1
+firefox 17934 wojtek  mem       REG                8,5   413832  794809 /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.25
+firefox 17934 wojtek  mem       REG                8,5    36632  529203 /lib/x86_64-linux-gnu/libwrap.so.0.7.6
+firefox 17934 wojtek  mem       REG                8,5   500344 1182048 /usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-8.0.so
+firefox 17934 wojtek  mem       REG                8,5    43496  529078 /lib/x86_64-linux-gnu/libjson-c.so.2.0.0
+firefox 17934 wojtek  mem       REG                8,5   324552  794691 /usr/lib/x86_64-linux-gnu/libpulse.so.0.19.0
+firefox 17934 wojtek  mem       REG                8,5   139764 1707173 /usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf
+firefox 17934 wojtek  mem       REG                8,5    23232 1184192 /usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.so
+firefox 17934 wojtek  mem       REG                8,5  1621538 4197944 /home/wojtek/.cache/mozilla/firefox/fewd31ot.default/startupCache/startupCache.8.little
+firefox 17934 wojtek  mem-r     REG                8,5    32768 3947162 /home/wojtek/.mozilla/firefox/fewd31ot.default/cookies.sqlite-shm
+firefox 17934 wojtek  mem       REG                8,5   671346  790133 /usr/lib/firefox/browser/features/firefox@getpocket.com.xpi
+firefox 17934 wojtek  mem       REG                8,5    79155 1707486 /usr/share/fonts/type1/gsfonts/n019003l.pfb
+firefox 17934 wojtek  mem       REG                8,5    33091 1575894 /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/ubufox@ubuntu.com.xpi
+firefox 17934 wojtek  mem       REG                8,5    47072  790143 /usr/lib/firefox/browser/components/libbrowsercomps.so
+firefox 17934 wojtek  mem-r     REG                8,5    32768 3947122 /home/wojtek/.mozilla/firefox/fewd31ot.default/places.sqlite-shm
+firefox 17934 wojtek  mem       REG                8,5   111344 2114727 /usr/share/icons/gnome/icon-theme.cache
+firefox 17934 wojtek  mem       REG                8,5    33076 2115613 /usr/share/icons/hicolor/icon-theme.cache
+firefox 17934 wojtek  mem       REG                8,5    34236 1445332 /usr/share/icons/Adwaita/icon-theme.cache
+firefox 17934 wojtek  mem       REG                8,5   208376 2106268 /usr/share/icons/Humanity/icon-theme.cache
+firefox 17934 wojtek  mem       REG                8,5    54788 2098920 /usr/share/icons/ubuntu-mono-dark/icon-theme.cache
+firefox 17934 wojtek  mem       REG                8,5    64072 1575617 /usr/share/icons/Ambiant-MATE/icon-theme.cache
+firefox 17934 wojtek  DEL       REG                0,5          3506205 /SYSV00000000
+firefox 17934 wojtek  DEL       REG                0,5          3473439 /SYSV00000000
+firefox 17934 wojtek  mem       REG                8,5 10426848  789723 /usr/lib/firefox/icudt56l.dat
+firefox 17934 wojtek  mem       REG                8,5 12483151  790141 /usr/lib/firefox/browser/omni.ja
+firefox 17934 wojtek  mem       REG                8,5  9661190  790117 /usr/lib/firefox/omni.ja
+firefox 17934 wojtek  mem       REG                8,5    47600  529116 /lib/x86_64-linux-gnu/libnss_files-2.23.so
+firefox 17934 wojtek  mem       REG                8,5    20403 3946349 /home/wojtek/.config/dconf/user
+firefox 17934 wojtek  mem       REG                8,5    41080 2886163 /var/cache/fontconfig/945677eb7aeaf62f1d50efc3fb3ec7d8-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5   202704 1180311 /usr/lib/x86_64-linux-gnu/gio/modules/libgvfsdbus.so
+firefox 17934 wojtek  mem       REG                8,5    52480 1180306 /usr/lib/x86_64-linux-gnu/gio/modules/libdconfsettings.so
+firefox 17934 wojtek  mem       REG                8,5   245912 1052580 /usr/lib/x86_64-linux-gnu/gvfs/libgvfscommon.so
+firefox 17934 wojtek  mem       REG                8,5   118432 1180310 /usr/lib/x86_64-linux-gnu/gio/modules/libgioremote-volume-monitor.so
+firefox 17934 wojtek  mem       REG               0,44        2      21 /run/user/1000/dconf/user
+firefox 17934 wojtek  mem       REG                8,5    20080 2113549 /usr/share/icons/Humanity-Dark/icon-theme.cache
+firefox 17934 wojtek  mem       REG                8,5    20584 2886343 /var/cache/fontconfig/2cd17615ca594fa2959ae173292e504c-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    84432 2886341 /var/cache/fontconfig/04aabc0a78ac019cf9454389977116d2-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    18272  789389 /usr/lib/libtopmenu-client-gtk3.so.0.0.0
+firefox 17934 wojtek  mem       REG                8,5    34656 1180375 /usr/lib/x86_64-linux-gnu/gtk-3.0/modules/libtopmenu-gtk-module.so
+firefox 17934 wojtek  mem       REG                8,5    34624  794592 /usr/lib/x86_64-linux-gnu/libogg.so.0.8.2
+firefox 17934 wojtek  mem       REG                8,5   178536  794940 /usr/lib/x86_64-linux-gnu/libvorbis.so.0.4.8
+firefox 17934 wojtek  mem       REG                8,5    39272  794443 /usr/lib/x86_64-linux-gnu/libltdl.so.7.3.1
+firefox 17934 wojtek  mem       REG                8,5    84600  794856 /usr/lib/x86_64-linux-gnu/libtdb.so.1.3.8
+firefox 17934 wojtek  mem       REG                8,5    35216  794944 /usr/lib/x86_64-linux-gnu/libvorbisfile.so.3.3.7
+firefox 17934 wojtek  mem       REG                8,5    68384  793855 /usr/lib/x86_64-linux-gnu/libcanberra.so.0.2.5
+firefox 17934 wojtek  mem       REG                8,5    18888  793853 /usr/lib/x86_64-linux-gnu/libcanberra-gtk3.so.0.1.9
+firefox 17934 wojtek  mem       REG                8,5    23184 1180374 /usr/lib/x86_64-linux-gnu/gtk-3.0/modules/libcanberra-gtk3-module.so
+firefox 17934 wojtek  mem       REG                8,5    14496 1052410 /usr/lib/x86_64-linux-gnu/gconv/UTF-16.so
+firefox 17934 wojtek  mem       REG                8,5 11466464  792446 /usr/lib/locale/locale-archive
+firefox 17934 wojtek  mem       REG                8,5    18976  529201 /lib/x86_64-linux-gnu/libuuid.so.1.3.0
+firefox 17934 wojtek  mem       REG                8,5    93824  793580 /usr/lib/x86_64-linux-gnu/libICE.so.6.3.0
+firefox 17934 wojtek  mem       REG                8,5    30960  793663 /usr/lib/x86_64-linux-gnu/libSM.so.6.0.1
+firefox 17934 wojtek  mem       REG                8,5     5992  793667 /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0
+firefox 17934 wojtek  mem       REG                8,5    22744  795063 /usr/lib/x86_64-linux-gnu/libxcb-util.so.1.0.0
+firefox 17934 wojtek  mem       REG                8,5   426320  793710 /usr/lib/x86_64-linux-gnu/libXt.so.6.0.0
+firefox 17934 wojtek  mem       REG                8,5    35136  794839 /usr/lib/x86_64-linux-gnu/libstartup-notification-1.so.0.0.0
+firefox 17934 wojtek  mem       REG                8,5   160480  793942 /usr/lib/x86_64-linux-gnu/libdbus-glib-1.so.2.3.3
+firefox 17934 wojtek  mem       REG                8,5  1048248  793759 /usr/lib/x86_64-linux-gnu/libasound.so.2.0.0
+firefox 17934 wojtek  mem       REG                8,5 71313408  790115 /usr/lib/firefox/libxul.so
+firefox 17934 wojtek  mem       REG                8,5    80496  529063 /lib/x86_64-linux-gnu/libgpg-error.so.0.17.0
+firefox 17934 wojtek  mem       REG                8,5   919168  528928 /lib/x86_64-linux-gnu/libgcrypt.so.20.0.5
+firefox 17934 wojtek  mem       REG                8,5   137400  529086 /lib/x86_64-linux-gnu/liblzma.so.5.0.0
+firefox 17934 wojtek  mem       REG                8,5    97064  793825 /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.58.0
+firefox 17934 wojtek  mem       REG                8,5    30928  793939 /usr/lib/x86_64-linux-gnu/libdatrie.so.1.3.3
+firefox 17934 wojtek  mem       REG                8,5   149720  794225 /usr/lib/x86_64-linux-gnu/libgraphite2.so.3.0.1
+firefox 17934 wojtek  mem       REG                8,5    22640  793684 /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+firefox 17934 wojtek  mem       REG                8,5    14456  793673 /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+firefox 17934 wojtek  mem       REG                8,5   199176  794679 /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so.9.0.1
+firefox 17934 wojtek  mem       REG                8,5    14496  793827 /usr/lib/x86_64-linux-gnu/libboost_system.so.1.58.0
+firefox 17934 wojtek  mem       REG                8,5   395968  794499 /usr/lib/x86_64-linux-gnu/libmirprotobuf.so.3
+firefox 17934 wojtek  mem       REG                8,5   200128  794498 /usr/lib/x86_64-linux-gnu/libmircommon.so.5
+firefox 17934 wojtek  mem       REG                8,5   456632  529146 /lib/x86_64-linux-gnu/libpcre.so.3.13.2
+firefox 17934 wojtek  mem       REG                8,5    31104  794075 /usr/lib/x86_64-linux-gnu/libffi.so.6.0.4
+firefox 17934 wojtek  mem       REG                8,5   101200  529169 /lib/x86_64-linux-gnu/libresolv-2.23.so
+firefox 17934 wojtek  mem       REG                8,5   130224  529175 /lib/x86_64-linux-gnu/libselinux.so.1
+firefox 17934 wojtek  mem       REG                8,5   166032  529050 /lib/x86_64-linux-gnu/libexpat.so.1.6.0
+firefox 17934 wojtek  mem       REG                8,5    37264  794862 /usr/lib/x86_64-linux-gnu/libthai.so.0.2.4
+firefox 17934 wojtek  mem       REG                8,5   383984  787805 /usr/lib/x86_64-linux-gnu/libharfbuzz.so.0.10000.1
+firefox 17934 wojtek  mem       REG                8,5   309392  529035 /lib/x86_64-linux-gnu/libdbus-1.so.3.14.6
+firefox 17934 wojtek  mem       REG                8,5   190632  793781 /usr/lib/x86_64-linux-gnu/libatspi.so.0.0.1
+firefox 17934 wojtek  mem       REG                8,5   104824  529208 /lib/x86_64-linux-gnu/libz.so.1.2.8
+firefox 17934 wojtek  mem       REG                8,5    39416  793706 /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+firefox 17934 wojtek  mem       REG                8,5    39056  795055 /usr/lib/x86_64-linux-gnu/libxcb-render.so.0.0.0
+firefox 17934 wojtek  mem       REG                8,5    14480  795059 /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0.0.0
+firefox 17934 wojtek  mem       REG                8,5   149904  529158 /lib/x86_64-linux-gnu/libpng12.so.0.54.0
+firefox 17934 wojtek  mem       REG                8,5   686096  794656 /usr/lib/x86_64-linux-gnu/libpixman-1.so.0.33.6
+firefox 17934 wojtek  mem       REG                8,5   137728  795071 /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+firefox 17934 wojtek  mem       REG                8,5   694800  794123 /usr/lib/x86_64-linux-gnu/libfreetype.so.6.12.1
+firefox 17934 wojtek  mem       REG                8,5    31712  529171 /lib/x86_64-linux-gnu/librt-2.23.so
+firefox 17934 wojtek  mem       REG                8,5    73640  793686 /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+firefox 17934 wojtek  mem       REG                8,5   530208  794497 /usr/lib/x86_64-linux-gnu/libmirclient.so.9
+firefox 17934 wojtek  mem       REG                8,5    56528  794955 /usr/lib/x86_64-linux-gnu/libwayland-client.so.0.3.0
+firefox 17934 wojtek  mem       REG                8,5     5960  786815 /usr/lib/x86_64-linux-gnu/libwayland-egl.so.1.0.0
+firefox 17934 wojtek  mem       REG                8,5    31168  794957 /usr/lib/x86_64-linux-gnu/libwayland-cursor.so.0.0.0
+firefox 17934 wojtek  mem       REG                8,5   256440  795075 /usr/lib/x86_64-linux-gnu/libxkbcommon.so.0.0.0
+firefox 17934 wojtek  mem       REG                8,5    10248  793682 /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+firefox 17934 wojtek  mem       REG                8,5    10232  793678 /usr/lib/x86_64-linux-gnu/libXcomposite.so.1.0.0
+firefox 17934 wojtek  mem       REG                8,5    39232  793680 /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+firefox 17934 wojtek  mem       REG                8,5    43288  793704 /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+firefox 17934 wojtek  mem       REG                8,5    10376  793696 /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+firefox 17934 wojtek  mem       REG                8,5  1115136  529061 /lib/x86_64-linux-gnu/libglib-2.0.so.0.4800.1
+firefox 17934 wojtek  mem       REG                8,5   339000  794209 /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0.4800.1
+firefox 17934 wojtek  mem       REG                8,5  1599368  794177 /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0.4800.1
+firefox 17934 wojtek  mem       REG                8,5   273832  786848 /usr/lib/x86_64-linux-gnu/libfontconfig.so.1.9.0
+firefox 17934 wojtek  mem       REG                8,5   310512  794626 /usr/lib/x86_64-linux-gnu/libpango-1.0.so.0.3800.1
+firefox 17934 wojtek  mem       REG                8,5    90000  794630 /usr/lib/x86_64-linux-gnu/libpangoft2-1.0.so.0.3800.1
+firefox 17934 wojtek  mem       REG                8,5  1003624  794037 /usr/lib/x86_64-linux-gnu/libepoxy.so.0.0.0
+firefox 17934 wojtek  mem       REG                8,5   193248  793773 /usr/lib/x86_64-linux-gnu/libatk-bridge-2.0.so.0.0.0
+firefox 17934 wojtek  mem       REG                8,5   150440  793771 /usr/lib/x86_64-linux-gnu/libatk-1.0.so.0.21809.1
+firefox 17934 wojtek  mem       REG                8,5   138656  787705 /usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0.3200.2
+firefox 17934 wojtek  mem       REG                8,5  1119696  798068 /usr/lib/x86_64-linux-gnu/libcairo.so.2.11502.0
+firefox 17934 wojtek  mem       REG                8,5    34944  786690 /usr/lib/x86_64-linux-gnu/libcairo-gobject.so.2.11502.0
+firefox 17934 wojtek  mem       REG                8,5    22584  793688 /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+firefox 17934 wojtek  mem       REG                8,5    63944  793694 /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+firefox 17934 wojtek  mem       REG                8,5  1285552  793669 /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+firefox 17934 wojtek  mem       REG                8,5    52624  794628 /usr/lib/x86_64-linux-gnu/libpangocairo-1.0.so.0.3800.1
+firefox 17934 wojtek  mem       REG                8,5    14656  794195 /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0.4800.1
+firefox 17934 wojtek  mem       REG                8,5   895344  794155 /usr/lib/x86_64-linux-gnu/libgdk-3.so.0.1800.9
+firefox 17934 wojtek  mem       REG                8,5  7513160  794283 /usr/lib/x86_64-linux-gnu/libgtk-3.so.0.1800.9
+firefox 17934 wojtek  mem       REG                8,5     5720  789719 /usr/lib/firefox/libmozgtk.so
+firefox 17934 wojtek  mem       REG                8,5    55184  789721 /usr/lib/firefox/liblgpllibs.so
+firefox 17934 wojtek  mem       REG                8,5   644056  789711 /usr/lib/firefox/libmozsqlite3.so
+firefox 17934 wojtek  mem       REG                8,5   248240  790127 /usr/lib/firefox/libssl3.so
+firefox 17934 wojtek  mem       REG                8,5   137744  789758 /usr/lib/firefox/libsmime3.so
+firefox 17934 wojtek  mem       REG                8,5  1029096  790119 /usr/lib/firefox/libnss3.so
+firefox 17934 wojtek  mem       REG                8,5   169952  789759 /usr/lib/firefox/libnssutil3.so
+firefox 17934 wojtek  mem       REG                8,5    14280  790125 /usr/lib/firefox/libplds4.so
+firefox 17934 wojtek  mem       REG                8,5    18344  789733 /usr/lib/firefox/libplc4.so
+firefox 17934 wojtek  mem       REG                8,5   205136  790105 /usr/lib/firefox/libnspr4.so
+firefox 17934 wojtek  mem       REG                8,5     3416 2886342 /var/cache/fontconfig/0d8c3b2ac0904cb8a57a757ad11a4a08-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5     3144 2886340 /var/cache/fontconfig/1ac9eb803944fde146138c791f5cc56a-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    12392 2886339 /var/cache/fontconfig/385c0604a188198f04d133e54aba7fe7-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5     1632 2886338 /var/cache/fontconfig/dc05db6664285cc2f12bf69c139ae4c3-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5     8640 2886337 /var/cache/fontconfig/767a8244fc0220cfb567a839d0392e0b-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5     2320 2886336 /var/cache/fontconfig/4794a0821666d79190d59a36cb4f44b5-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5   258896 2886335 /var/cache/fontconfig/0bd3dc0958fa2205aaaa8ebb13e2872b-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    17256 2886334 /var/cache/fontconfig/8801497958630a81b71ace7c5f9b32a8-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5     1800 2886333 /var/cache/fontconfig/bab58bb527bb656aaa9f116d68a48d89-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    25168 2886332 /var/cache/fontconfig/3047814df9a2f067bd2d96a2b9c36e5a-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    28936 2887056 /var/cache/fontconfig/bf3b770c553c462765856025a94f1ce6-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5     1816 2886331 /var/cache/fontconfig/56cf4f4769d0f4abc89a4895d7bd3ae1-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5     3184 2886330 /var/cache/fontconfig/b9d506c9ac06c20b433354fa67a72993-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    21520 2886329 /var/cache/fontconfig/b47c4e1ecd0709278f4910c18777a504-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    76688 2886328 /var/cache/fontconfig/d52a8644073d54c13679302ca1180695-le64.cache-6
+firefox 17934 wojtek  DEL       REG                0,5          3309591 /SYSV00000000
+firefox 17934 wojtek  mem       REG                8,5  1864888  529021 /lib/x86_64-linux-gnu/libc-2.23.so
+firefox 17934 wojtek  mem       REG                8,5    89696  529057 /lib/x86_64-linux-gnu/libgcc_s.so.1
+firefox 17934 wojtek  mem       REG                8,5  1088952  529089 /lib/x86_64-linux-gnu/libm-2.23.so
+firefox 17934 wojtek  mem       REG                8,5  1566440  786834 /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21
+firefox 17934 wojtek  mem       REG                8,5    14608  529043 /lib/x86_64-linux-gnu/libdl-2.23.so
+firefox 17934 wojtek  mem       REG                8,5   138744  529163 /lib/x86_64-linux-gnu/libpthread-2.23.so
+firefox 17934 wojtek  mem       REG                8,5   162632  528993 /lib/x86_64-linux-gnu/ld-2.23.so
+firefox 17934 wojtek  mem       REG                8,5     1816 2886327 /var/cache/fontconfig/551ecf3b0e8b0bca0f25c0944f561853-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    15216 2886326 /var/cache/fontconfig/d589a48862398ed80a3d6066f4f56f4c-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    54448 2886828 /var/cache/fontconfig/30829fa25452a46451e813d634d7f916-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    13736 2886322 /var/cache/fontconfig/0843ca893a93b5446bad221815920e23-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    70208 2886321 /var/cache/fontconfig/9b89f8e3dae116d678bbf48e5f21f69b-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    33096 2886028 /var/cache/fontconfig/d0972c3d32f097851eb916381fc38920-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5     9176 2886032 /var/cache/fontconfig/e13b20fdb08344e0e664864cc2ede53d-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5   126264 1320408 /usr/share/mime/mime.cache
+firefox 17934 wojtek  mem       REG                8,5     2432 2886324 /var/cache/fontconfig/0c9eb80ebd1c36541ebe2852d3bb0c49-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5    13384 2886320 /var/cache/fontconfig/7ef2298fde41cc6eeb7af42e48b7d293-le64.cache-6
+firefox 17934 wojtek  mem       REG                8,5   536520  532025 /lib/x86_64-linux-gnu/libsystemd.so.0.14.0
+firefox 17934 wojtek  mem       REG                8,5      532 4197930 /home/wojtek/.local/share/mime/mime.cache
+firefox 17934 wojtek  mem       REG                8,5     3339 1322035 /usr/share/locale-langpack/en/LC_MESSAGES/gtk30.mo
+firefox 17934 wojtek  mem       REG                8,5    26258 1052415 /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache
+firefox 17934 wojtek    0u      CHR              136,1      0t0       4 /dev/pts/1
+firefox 17934 wojtek    1u      CHR              136,1      0t0       4 /dev/pts/1
+firefox 17934 wojtek    2u      CHR              136,1      0t0       4 /dev/pts/1
+firefox 17934 wojtek    3u     unix 0x0000000000000000      0t0  136651 type=STREAM
+firefox 17934 wojtek    4u     unix 0x0000000000000000      0t0  134112 type=STREAM
+firefox 17934 wojtek    5u  a_inode               0,11        0    7005 [eventfd]
+firefox 17934 wojtek    6wW     REG                8,5        0 3932266 /home/wojtek/.mozilla/firefox/fewd31ot.default/.parentlock
+firefox 17934 wojtek    7u     unix 0x0000000000000000      0t0  134113 type=STREAM
+firefox 17934 wojtek    8u  a_inode               0,11        0    7005 [eventfd]
+firefox 17934 wojtek    9u  a_inode               0,11        0    7005 [eventfd]
+firefox 17934 wojtek   10u  a_inode               0,11        0    7005 [eventpoll]
+firefox 17934 wojtek   11u     unix 0x0000000000000000      0t0  137520 type=STREAM
+firefox 17934 wojtek   12u     unix 0x0000000000000000      0t0  137521 type=STREAM
+firefox 17934 wojtek   13r     FIFO               0,10      0t0  137522 pipe
+firefox 17934 wojtek   14w     FIFO               0,10      0t0  137522 pipe
+firefox 17934 wojtek   15r      REG                8,5  9661190  790117 /usr/lib/firefox/omni.ja
+firefox 17934 wojtek   16r      REG                8,5 12483151  790141 /usr/lib/firefox/browser/omni.ja
+firefox 17934 wojtek   17r     FIFO               0,10      0t0  134117 pipe
+firefox 17934 wojtek   18w     FIFO               0,10      0t0  134117 pipe
+firefox 17934 wojtek   19r     FIFO               0,10      0t0  137523 pipe
+firefox 17934 wojtek   20w     FIFO               0,10      0t0  137523 pipe
+firefox 17934 wojtek   21u  netlink                         0t0  137524 ROUTE
+firefox 17934 wojtek   22r      CHR                1,9      0t0      11 /dev/urandom
+firefox 17934 wojtek   23r     FIFO               0,10      0t0  138591 pipe
+firefox 17934 wojtek   24w     FIFO               0,10      0t0  138591 pipe
+firefox 17934 wojtek   25r      REG                8,5  1621538 4197944 /home/wojtek/.cache/mozilla/firefox/fewd31ot.default/startupCache/startupCache.8.little
+firefox 17934 wojtek   26u     unix 0x0000000000000000      0t0  134122 type=STREAM
+firefox 17934 wojtek   27r     FIFO               0,10      0t0  136650 pipe
+firefox 17934 wojtek   28w     FIFO               0,10      0t0  136650 pipe
+firefox 17934 wojtek   29u      REG                8,5   196608 3932279 /home/wojtek/.mozilla/firefox/fewd31ot.default/cert8.db
+firefox 17934 wojtek   30u      REG                8,5    16384 3932280 /home/wojtek/.mozilla/firefox/fewd31ot.default/key3.db
+firefox 17934 wojtek   31u      REG                8,5    98304 3932285 /home/wojtek/.mozilla/firefox/fewd31ot.default/permissions.sqlite
+firefox 17934 wojtek   32r  a_inode               0,11        0    7005 inotify
+firefox 17934 wojtek   33ur     REG                8,5 10485760 3932287 /home/wojtek/.mozilla/firefox/fewd31ot.default/places.sqlite
+firefox 17934 wojtek   34u      REG                8,5   623080 3932244 /home/wojtek/.mozilla/firefox/fewd31ot.default/places.sqlite-wal
+firefox 17934 wojtek   35ur     REG                8,5    32768 3947122 /home/wojtek/.mozilla/firefox/fewd31ot.default/places.sqlite-shm
+firefox 17934 wojtek   36u      REG                8,5   229376 3932291 /home/wojtek/.mozilla/firefox/fewd31ot.default/content-prefs.sqlite
+firefox 17934 wojtek   37r      REG                8,5    33091 1575894 /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/ubufox@ubuntu.com.xpi
+firefox 17934 wojtek   38r      REG                8,5   671346  790133 /usr/lib/firefox/browser/features/firefox@getpocket.com.xpi
+firefox 17934 wojtek   39u     IPv4             137799      0t0     TCP wojtek.home:41148->ec2-54-75-248-132.eu-west-1.compute.amazonaws.com:https (ESTABLISHED)
+firefox 17934 wojtek   40u     IPv4             140650      0t0     TCP wojtek.home:43832->a23-42-27-27.deploy.static.akamaitechnologies.com:http (ESTABLISHED)
+firefox 17934 wojtek   41ur     REG                8,5   524288 3932273 /home/wojtek/.mozilla/firefox/fewd31ot.default/cookies.sqlite
+firefox 17934 wojtek   42u      REG                8,5   590288 3947121 /home/wojtek/.mozilla/firefox/fewd31ot.default/cookies.sqlite-wal
+firefox 17934 wojtek   43ur     REG                8,5    32768 3947162 /home/wojtek/.mozilla/firefox/fewd31ot.default/cookies.sqlite-shm
+firefox 17934 wojtek   44ur     REG                8,5   524288 3932273 /home/wojtek/.mozilla/firefox/fewd31ot.default/cookies.sqlite
+firefox 17934 wojtek   45rr     REG                8,5 10485760 3932287 /home/wojtek/.mozilla/firefox/fewd31ot.default/places.sqlite
+firefox 17934 wojtek   46u  a_inode               0,11        0    7005 [eventfd]
+firefox 17934 wojtek   48u     IPv4             140652      0t0     TCP wojtek.home:43836->a23-42-27-27.deploy.static.akamaitechnologies.com:http (ESTABLISHED)
+firefox 17934 wojtek   49u      REG                8,5   623080 3932244 /home/wojtek/.mozilla/firefox/fewd31ot.default/places.sqlite-wal
+firefox 17934 wojtek   50rr     REG                8,5 10485760 3932287 /home/wojtek/.mozilla/firefox/fewd31ot.default/places.sqlite
+firefox 17934 wojtek   51u      REG                8,5   623080 3932244 /home/wojtek/.mozilla/firefox/fewd31ot.default/places.sqlite-wal
+firefox 17934 wojtek   52u     unix 0x0000000000000000      0t0  136661 type=STREAM
+firefox 17934 wojtek   53u  a_inode               0,11        0    7005 [eventfd]
+firefox 17934 wojtek   54r     FIFO               0,10      0t0  134124 pipe
+firefox 17934 wojtek   55w     FIFO               0,10      0t0  134124 pipe
+firefox 17934 wojtek   56u  a_inode               0,11        0    7005 [eventfd]
+firefox 17934 wojtek   57u      REG                8,5    12288 3932242 /home/wojtek/.cache/event-sound-cache.tdb.eb087ca64fb84f4ead548f07775ff99d.x86_64-pc-linux-gnu
+firefox 17934 wojtek   58u     IPv4             140621      0t0     TCP wojtek.home:38114->server-54-192-229-176.waw50.r.cloudfront.net:https (ESTABLISHED)
+firefox 17934 wojtek   59u     IPv4             140623      0t0     TCP wojtek.home:52846->93.184.220.29:http (ESTABLISHED)
+firefox 17934 wojtek   60ur     REG                8,5   163840 3932303 /home/wojtek/.mozilla/firefox/fewd31ot.default/webappsstore.sqlite
+firefox 17934 wojtek   61u      REG                8,5        0 3937136 /home/wojtek/.mozilla/firefox/fewd31ot.default/webappsstore.sqlite-wal
+firefox 17934 wojtek   62ur     REG                8,5    32768 3947306 /home/wojtek/.mozilla/firefox/fewd31ot.default/webappsstore.sqlite-shm
+firefox 17934 wojtek   63rr     REG                8,5   163840 3932303 /home/wojtek/.mozilla/firefox/fewd31ot.default/webappsstore.sqlite
+firefox 17934 wojtek   64u      REG                8,5        0 3937136 /home/wojtek/.mozilla/firefox/fewd31ot.default/webappsstore.sqlite-wal
+firefox 17934 wojtek   65u     IPv4             139563      0t0     TCP wojtek.home:53832->server-54-192-229-13.waw50.r.cloudfront.net:https (ESTABLISHED)
+firefox 17934 wojtek   66u     IPv4             137792      0t0     TCP wojtek.home:40908->server-54-192-229-117.waw50.r.cloudfront.net:https (ESTABLISHED)
+firefox 17934 wojtek   67r     FIFO               0,10      0t0  134126 pipe
+firefox 17934 wojtek   68u     IPv4             137790      0t0     TCP wojtek.home:49010->server-54-192-231-125.waw50.r.cloudfront.net:https (ESTABLISHED)
+firefox 17934 wojtek   69u     IPv4             140625      0t0     TCP wojtek.home:48436->server-54-192-229-155.waw50.r.cloudfront.net:https (ESTABLISHED)
+firefox 17934 wojtek   70u     IPv4             138968      0t0     TCP wojtek.home:53834->server-54-192-229-13.waw50.r.cloudfront.net:https (ESTABLISHED)
+firefox 17934 wojtek   71u     IPv4             138969      0t0     TCP wojtek.home:53836->server-54-192-229-13.waw50.r.cloudfront.net:https (ESTABLISHED)
+firefox 17934 wojtek   72u     IPv4             138970      0t0     TCP wojtek.home:53838->server-54-192-229-13.waw50.r.cloudfront.net:https (ESTABLISHED)
+firefox 17934 wojtek   73u     IPv4             138971      0t0     TCP wojtek.home:53840->server-54-192-229-13.waw50.r.cloudfront.net:https (ESTABLISHED)
+firefox 17934 wojtek   74u     IPv4             137791      0t0     TCP wojtek.home:53844->server-54-192-229-13.waw50.r.cloudfront.net:https (ESTABLISHED)
+firefox 17934 wojtek   76u     IPv4             137800      0t0     TCP wojtek.home:41150->ec2-54-75-248-132.eu-west-1.compute.amazonaws.com:https (ESTABLISHED)
+firefox 17934 wojtek   77u     IPv4             137801      0t0     TCP wojtek.home:41152->ec2-54-75-248-132.eu-west-1.compute.amazonaws.com:https (ESTABLISHED)
+firefox 17934 wojtek   78u     IPv4             137802      0t0     TCP wojtek.home:41154->ec2-54-75-248-132.eu-west-1.compute.amazonaws.com:https (ESTABLISHED)
+firefox 17934 wojtek   79u     IPv4             139566      0t0     TCP wojtek.home:52890->93.184.220.29:http (ESTABLISHED)
+firefox 17934 wojtek   80u     IPv4             139567      0t0     TCP wojtek.home:52892->93.184.220.29:http (ESTABLISHED)
+firefox 17934 wojtek   81u     IPv4             137803      0t0     TCP wojtek.home:41156->ec2-54-75-248-132.eu-west-1.compute.amazonaws.com:https (ESTABLISHED)
+firefox 17934 wojtek   82u     IPv4             136697      0t0     TCP wojtek.home:47300->fra16s12-in-f14.1e100.net:https (ESTABLISHED)
+firefox 17934 wojtek   83u     IPv4             137804      0t0     TCP wojtek.home:41158->ec2-54-75-248-132.eu-west-1.compute.amazonaws.com:https (ESTABLISHED)
+firefox 17934 wojtek   84u     IPv4             139568      0t0     TCP wojtek.home:52894->93.184.220.29:http (ESTABLISHED)
+firefox 17934 wojtek   87u     IPv4             140636      0t0     TCP wojtek.home:45154->a104-89-42-183.deploy.static.akamaitechnologies.com:https (ESTABLISHED)
+firefox 17934 wojtek   88u     IPv4             140637      0t0     TCP wojtek.home:50876->151.101.12.249:https (ESTABLISHED)
+firefox 17934 wojtek   89u     IPv4             140638      0t0     TCP wojtek.home:50878->151.101.12.249:https (ESTABLISHED)
+firefox 17934 wojtek   90w     FIFO               0,10      0t0  134126 pipe
+firefox 17934 wojtek   91u     unix 0x0000000000000000      0t0  134128 type=STREAM
+firefox 17934 wojtek   92u  a_inode               0,11        0    7005 [eventfd]
+firefox 17934 wojtek   93u  a_inode               0,11        0    7005 [eventfd]
+firefox 17934 wojtek   95u     IPv4             140640      0t0     TCP wojtek.home:50882->151.101.12.249:https (ESTABLISHED)
+firefox 17934 wojtek   96u     IPv4             136721      0t0     TCP wojtek.home:51796->fra16s12-in-f2.1e100.net:https (ESTABLISHED)
+firefox 17934 wojtek   99u     IPv4             136774      0t0     TCP wojtek.home:53660->fra15s09-in-f2.1e100.net:https (ESTABLISHED)
+firefox 17934 wojtek  104u     IPv4             134136      0t0     TCP wojtek.home:51752->fra16s12-in-f2.1e100.net:https (ESTABLISHED)
+firefox 17934 wojtek  106u     IPv4             140649      0t0     TCP wojtek.home:43830->a23-42-27-27.deploy.static.akamaitechnologies.com:http (ESTABLISHED)
+firefox 17934 wojtek  127u     IPv4             139272      0t0     TCP wojtek.home:57564->fra16s12-in-f13.1e100.net:https (ESTABLISHED)
+firefox 17934 wojtek  136u     IPv4             136736      0t0     TCP wojtek.home:37586->edge-star-mini-shv-01-frt3.facebook.com:https (ESTABLISHED)
+firefox 17934 wojtek  141u     IPv4             136750      0t0     TCP wojtek.home:45752->fra16s05-in-f3.1e100.net:https (ESTABLISHED)
+firefox 17934 wojtek  148u     IPv4             136753      0t0     TCP wojtek.home:45762->fra16s05-in-f3.1e100.net:https (ESTABLISHED)
+firefox 17934 wojtek  149u     IPv4             139301      0t0     TCP wojtek.home:57370->xx-fbcdn-shv-01-frt3.fbcdn.net:https (ESTABLISHED)
+firefox 17934 wojtek  175u     IPv4             139308      0t0     TCP wojtek.home:41628->fra15s18-in-f10.1e100.net:https (ESTABLISHED)
+firefox 17934 wojtek  176u     IPv4             139309      0t0     TCP wojtek.home:52550->fra07s63-in-f1.1e100.net:https (ESTABLISHED)
+firefox 17934 wojtek  178u     IPv4             139311      0t0     TCP wojtek.home:55404->waw02s05-in-f4.1e100.net:https (ESTABLISHED)
+firefox 17934 wojtek  181u     IPv4             139315      0t0     TCP wojtek.home:33240->199.16.156.201:https (ESTABLISHED)
+firefox 17934 wojtek  189u     IPv4             136799      0t0     TCP wojtek.home:38082->185.29.133.224:http (ESTABLISHED)
+firefox 17934 wojtek  193u     IPv4             136833      0t0     TCP wojtek.home:58954->185.29.133.224:https (ESTABLISHED)
+firefox 17934 wojtek  211u     IPv4             136845      0t0     TCP wojtek.home:57016->ams16s29-in-f14.1e100.net:https (ESTABLISHED)
+firefox 17934 wojtek  215u     IPv4             137671      0t0     TCP wojtek.home:59144->public102951.xdsl.centertel.pl:https (ESTABLISHED)
+firefox 17934 wojtek  224u     IPv4             136870      0t0     TCP wojtek.home:51096->104.16.27.235:https (ESTABLISHED)
