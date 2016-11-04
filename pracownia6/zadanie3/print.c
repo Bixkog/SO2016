@@ -3,16 +3,21 @@
 #include <unistd.h>
 #include <string.h>
 
-int main(int argc, char * const argv)
+int main(int argc, char * const argv[])
 {
-    int delete_output = atoi(argv[i]);
-    char buffer[512];
-    while(read(delete_output, buffer, 512) != 0)
+    if(argc != 2)
+        return -1;
+    int delete_output = atoi(argv[1]);
+    char buffer[512] = "";
+    int characters = 0;
+    int b;
+    while((b = read(delete_output, buffer, 512)))
     {
-        int i;
-        for( i = 0; buffer[i] != '\0' && buffer[i] != '\n'; i++);
-        characters += i;
+        if(b == -1)
+            return -1;
+        characters += b;
         printf("%s\n", buffer);
+        memset(buffer, 0, 512);
     }
     close(delete_output);
     printf("Number of characters = %i\n", characters);
