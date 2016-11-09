@@ -43,15 +43,8 @@ void handler(int signum, siginfo_t* siginfo, void* context)
     char **bt_strings;
 
     int nptrs = backtrace(bt_buffer, 128);
-    bt_strings = backtrace_symbols(bt_buffer, nptrs);
-    int i;
-    for (i = 0; i < nptrs; i++)
-    {
-        snprintf(buffer, 512, "%s\n", bt_strings[i]);
-        write(2, buffer, 512);
-        memset(buffer, 0, 512);
-    }
-    free(bt_strings);
+    backtrace_symbols_fd(bt_buffer, nptrs, 2);
+    
     _exit(SIGSEGV);
 }
 
