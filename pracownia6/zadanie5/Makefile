@@ -1,13 +1,21 @@
-all: modules library ldl rdl
+CC=gcc
+CFLAGS=-Wall -Wextra -std=gnu99 -g
 
-modules:
-	gcc strdrop.c -g -c -o strdrop.o -fPIC -Wall -Wextra
-	gcc strcnt.c -g -c -o strcnt.o -fPIC -Wall -Wextra
-library:
-	gcc -shared -o libstr.so -g strcnt.o strdrop.o
-ldl:
-	gcc ldl.c -o ldl.out -Wl,-rpath,. -Wall -Wextra -g libstr.so 
+all: strcnt.o strdrop.o libstr.so ldl rdl
+
+strcnt.o: CFLAGS+=-fPIC
+
+strdrop.o: CFLAGS+=-fPIC
+
+libstr.so: CFLAGS+= -fPIC -shared
+libstr.so: strcnt.o strdrop.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+ldl: 
+	$(CC) $(CFLAGS) ldl.c -o $@ -Wl,-rpath,. libstr.so
+
 rdl:
-	gcc rdl.c -o rdl.out -Wl,-rpath,. -Wall -Wextra -g -ldl
+	$(CC) $(CFLAGS) rdl.c -o $@ -Wl,-rpath,. -ldl 
+
 clean:
-	rm -f *.o *.out *.so 
+	$(RM) *.o *.out *.so ldl rdl 

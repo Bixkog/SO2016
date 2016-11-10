@@ -44,8 +44,6 @@ void handler(int signum, siginfo_t* siginfo, void* context)
 
     int nptrs = backtrace(bt_buffer, 128);
     backtrace_symbols_fd(bt_buffer, nptrs, 2);
-    
-    _exit(SIGSEGV);
 }
 
 
@@ -53,7 +51,7 @@ int main(int argc, char * const argv[])
 {
     struct sigaction act;
     act.sa_sigaction = handler;
-    act.sa_flags = SA_SIGINFO;
+    act.sa_flags = SA_SIGINFO | SA_RESETHAND;
     sigaction(SIGSEGV, &act, NULL);
     
     if(argc < 2) generate_SEGV_MAPERR();

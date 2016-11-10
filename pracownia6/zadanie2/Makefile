@@ -1,4 +1,9 @@
-make:
-	gcc zad2.c -o zad2 -g -std=gnu99 -Wall -Wextra
+CC=gcc
+CFLAGS=-Wall -Wextra -std=gnu99 -g
+
+zad2:
+
+zad2.o: zad2.c
+
 clean:
-	rm zad2
+	rm -f zad2 zad2.o

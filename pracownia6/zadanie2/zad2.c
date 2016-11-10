@@ -23,9 +23,9 @@ void getAndCountWords(void)
         }
         char* p = buffer;
         int at_word = (*p != ' ');
-        while(*p != '\0' && *p!= '\n')
+        while(*p != '\0')
         {
-            if(*p == ' ' && at_word)
+            if((*p == ' ' || *p == '\n') && at_word)
             {
                 words++;
                 at_word = 0;

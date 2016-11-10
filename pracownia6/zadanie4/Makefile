@@ -1,4 +1,7 @@
-make:
-	gcc zad4.c -o zad4 -g -std=gnu99 -Wall -Wextra -Wno-unused
+CC=gcc
+CFLAGS=-g -std=gnu99 -Wall -Wextra -Wno-unused
+
+zad4:
+zad4.o: 
 clean:
-	rm zad4
+	rm -f zad4 *.o
