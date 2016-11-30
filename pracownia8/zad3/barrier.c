@@ -1,3 +1,4 @@
+// Wojciech Oziebly
 #include "barrier.h"
 #include <stdlib.h>
 #include <sys/mman.h>

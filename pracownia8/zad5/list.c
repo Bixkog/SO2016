@@ -1,3 +1,4 @@
+// Wojciech Oziebly
 #include "list.h"
 
 node* node_init(int v, node* prev, node* next)

@@ -1,3 +1,5 @@
+// Wojciech Oziebly
+// Pierwszy parametr - liczba watkow
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -58,11 +60,11 @@ pthread_t* create_workers()
     int readers_count = n - writers_count - deleters_count;
     pthread_t* workers = calloc(n, sizeof(pthread_t));
     int i = 0;
-    for(i; i < readers_count; i++)
+    for(; i < readers_count; i++)
         pthread_create(&(workers[i]), NULL, reader, NULL);
-    for(i; i < readers_count + writers_count; i++)
+    for(; i < readers_count + writers_count; i++)
         pthread_create(&(workers[i]), NULL, writer, NULL);
-    for(i; i < n; i++)
+    for(; i < n; i++)
         pthread_create(&(workers[i]), NULL, deleter, NULL);
     return workers;
 }

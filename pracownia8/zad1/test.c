@@ -1,3 +1,4 @@
+// Wojciech Oziebly
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -17,6 +18,7 @@ void* testProcedure(void* arg)
     sem_getvalue(&semaphore, &c);
     printf("Thread %lu out, counter: %d\n", pthread_self(), c);
     sem_post(&semaphore);
+    return NULL;
 }
 
 int main(int argc, char** argv)

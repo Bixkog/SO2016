@@ -1,3 +1,4 @@
+// Wojciech Oziebly
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -83,20 +84,17 @@ int main(int argc, char** argv)
     srand(time(NULL));
     if(argc != 3)
     {
-        printf("Wrong number of arguments! 3 arguments needed.\n");
+        printf("Wrong number of arguments! 2 arguments needed.\n");
+        printf("1 - number of horseman, 2 - number of laps\n");
         return 1;
     }
     int n = atoi(argv[1]);
     int k = atoi(argv[2]);
     barrier = barrier_init(n);
-    // block_sigusr1();
-    // int gate_pid = create_gate(n, argv[0]);
-    // wait_for_sigusr1();
     int i;
     for(i = 0; i < n; i++)
         create_horse(i, k, argv[0]);
     for(i = 0; i < n; i++)
         wait(NULL);
-    //kill(gate_pid, SIGUSR1);
     barrier_destroy(barrier);
 }

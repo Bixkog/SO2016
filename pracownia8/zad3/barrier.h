@@ -1,3 +1,4 @@
+// Wojciech Oziebly
 #ifndef MY_BARRIER_H
 #define MY_BARRIER_H
 

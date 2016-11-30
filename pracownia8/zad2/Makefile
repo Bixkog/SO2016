@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-pthread -g -Wall -Wextra
+CFLAGS=-pthread -g -Wall -Wextra -Wno-unused
 
 all: wariant_a wariant_b
 wariant_a: sem.o

@@ -50,8 +50,8 @@ void sem_wait(sem_t* sem)
     if(sem->active == sem->size)
     {
         sem->waiting++;
-        checked_unlock(&(sem->counter_mutex));
         checked_lock(&(sem->cs_mutex));
+        checked_unlock(&(sem->counter_mutex));
         checked_wait(&(sem->blocked), &(sem->cs_mutex));   
         checked_unlock(&(sem->cs_mutex));
     } 
@@ -69,7 +69,9 @@ void sem_post(sem_t* sem)
     if(sem->waiting > 0)
     {
         sem->waiting--;
+        checked_lock(&(sem->cs_mutex));
         pthread_cond_signal(&(sem->blocked));
+        checked_unlock(&(sem->cs_mutex));
     }
     else
         sem->active--;
@@ -79,7 +81,7 @@ void sem_post(sem_t* sem)
 void sem_getvalue(sem_t* sem, int* val)
 { 
     checked_lock(&(sem->counter_mutex));
-    *val = sem->active;
+    *val = sem-> size - sem->active - sem->waiting;
     checked_unlock(&(sem->counter_mutex));
 }
 

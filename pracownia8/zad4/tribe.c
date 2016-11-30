@@ -1,3 +1,4 @@
+// Wojciech Oziebly
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -47,7 +48,7 @@ void close_semaphores()
         perror("Failed to close semaphore /finished_sem ");    
 }
 
-pid_t create_cook(int missionaries_count, int missionary_meatnes)
+pid_t create_cook(int missionaries_count, int missionary_meatness)
 {
     pid_t pid;
     if((pid = fork()) == 0)
@@ -55,7 +56,7 @@ pid_t create_cook(int missionaries_count, int missionary_meatnes)
         while(missionaries_count --> 0)
         {
             sem_wait(cook_sem);
-            *caldron = missionary_meatnes;
+            *caldron = missionary_meatness;
             sem_post(finished_sem);
         }
         sem_wait(cook_sem);
@@ -97,17 +98,17 @@ int main(int argc, char** argv)
     if(argc != 4)
     {
         printf("Invalid number of arguments!\n"
-                "Should be 3. 1-tribesman_number 2-missionary_meatnes 3-missionary_count");
+                "Should be 3. 1-tribesman_number 2-missionary_meatness 3-missionary_count");
         return 0;
     }
     int tribesman_number = atoi(argv[1]);    
-    int missionary_meatnes = atoi(argv[2]);
+    int missionary_meatness = atoi(argv[2]);
     int missionaries_count = atoi(argv[3]);
 
-    init_caldron(missionary_meatnes);
+    init_caldron(missionary_meatness);
     open_semaphores();
     
-    pid_t cook_pid = create_cook(missionaries_count, missionary_meatnes);
+    pid_t cook_pid = create_cook(missionaries_count, missionary_meatness);
     
     pid_t* tribesman_pids = calloc(tribesman_number, sizeof(pid_t));
     int i;

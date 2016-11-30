@@ -1,3 +1,4 @@
+// Wojciech Oziebly
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +24,7 @@ void eat(int i)
 
 void take_forks(int i)
 {
+    pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
     if(i < (i+1)%5)
     {
         sem_wait(&(forks[i]));
@@ -39,6 +41,7 @@ void put_forks(int i)
 {
     sem_post(&(forks[i]));
     sem_post(&(forks[(i+1)%5]));
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 }
 
 void* dine(void* i)
@@ -105,7 +108,6 @@ int main()
 {
     block_sigint();
     create_philosophers();
-    
     
     struct sigaction act;
     act.sa_handler = sigint_handler;
