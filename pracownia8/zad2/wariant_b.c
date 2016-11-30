@@ -15,12 +15,12 @@ pid_t children[5];
 
 void eat()
 {
-    usleep((rand()%10) * 100);
+    usleep((rand()%10) * 10000);
 }
 
 void think()
 {
-    usleep((rand()%11) * 99);
+    usleep((rand()%11) * 9900);
 }
 
 void take_forks(int i)
@@ -73,6 +73,8 @@ void sigint_handler(int signum)
     {
         if(kill(children[i], SIGTERM) == 0)
             printf("Killed %d philosopher\n", i);
+        else
+            perror("Unable to kill philosopher: ");
     }
     for(i = 0; i < 5; i++)
         sem_unlink(sem_names[i]);
@@ -81,6 +83,7 @@ void sigint_handler(int signum)
 
 int main()
 {
+    srand(time(NULL));
     open_semaphores();
     int i;
     for(i = 0; i < 5; i++)
