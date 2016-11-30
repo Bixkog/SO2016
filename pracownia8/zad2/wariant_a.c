@@ -9,20 +9,30 @@ pthread_t philosophers[5];
 sem_t forks[5];
 int numbers[5] = {0, 1, 2, 3, 4};
 
-void think()
+void think(int i)
 {
+    printf("Philosopher %d thinking.\n", i);
     usleep((pthread_self() % 7) * 10);
 }
 
-void eat()
+void eat(int i)
 {
+    printf("Philosopher %d eating.\n", i);
     usleep((pthread_self() % 11) * 10);
 }
 
 void take_forks(int i)
 {
-    sem_wait(&(forks[i]));
-    sem_wait(&(forks[(i+1)%5]));
+    if(i < (i+1)%5)
+    {
+        sem_wait(&(forks[i]));
+        sem_wait(&(forks[(i+1)%5]));
+    }
+    else
+    {
+        sem_wait(&(forks[(i+1)%5]));
+        sem_wait(&(forks[i]));
+    }
 }
 
 void put_forks(int i)
@@ -36,9 +46,9 @@ void* dine(void* i)
     int id = *((int*)i);
     while(1)
     {
-        think();
+        think(id);
         take_forks(id);
-        eat();
+        eat(id);
         put_forks(id);
     }
 }
@@ -64,8 +74,9 @@ void sigint_handler(int signum)
     int i;
     for(i = 0; i < 5; i++)
     {
-        pthread_cancel(philosophers[i]);
-        printf("Canceling philosopher %d\n", i);
+        int e = pthread_cancel(philosophers[i]);
+        if(!e) printf("Canceling philosopher %d\n", i);
+        else printf("Unable to cancel philosopher %d\n", i);
     }
 }
 
@@ -99,9 +110,14 @@ int main()
     struct sigaction act;
     act.sa_handler = sigint_handler;
     set_sigint_handler(&act);
-
+    
+    void* res;
     int i;
     for(i = 0; i < 5; i++)
-        pthread_join(philosophers[i], NULL);
+    {
+        pthread_join(philosophers[i], &res);
+        if(res == PTHREAD_CANCELED) printf("Canceled philosopher %d\n", i);
+    }
+    return 0;
 }
 

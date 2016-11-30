@@ -22,6 +22,18 @@ void checked_unlock(pthread_mutex_t* m)
     assert(e == 0);
 }
 
+void checked_lock(pthread_mutex_t* m)
+{
+    int e = pthread_mutex_lock(m);
+    assert(e == 0);
+}
+
+void checked_wait(pthread_cond_t* c, pthread_mutex_t* m)
+{
+    int e = pthread_cond_wait(c, m);
+    assert(e == 0);
+}
+
 void sem_init(sem_t* sem, unsigned value)
 {
     sem->size = value;
@@ -34,14 +46,13 @@ void sem_init(sem_t* sem, unsigned value)
 
 void sem_wait(sem_t* sem)
 {
-    pthread_mutex_lock(&(sem->counter_mutex));
+    checked_lock(&(sem->counter_mutex));
     if(sem->active == sem->size)
     {
         sem->waiting++;
+        checked_lock(&(sem->cs_mutex));
         checked_unlock(&(sem->counter_mutex));
-        pthread_mutex_lock(&(sem->cs_mutex));
-        pthread_cond_wait(&(sem->blocked), 
-                            &(sem->cs_mutex));   
+        checked_wait(&(sem->blocked), &(sem->cs_mutex));   
         checked_unlock(&(sem->cs_mutex));
     } 
     else 
@@ -53,12 +64,14 @@ void sem_wait(sem_t* sem)
 
 void sem_post(sem_t* sem)
 {
-    pthread_mutex_lock(&(sem->counter_mutex));
+    checked_lock(&(sem->counter_mutex));
 
     if(sem->waiting > 0)
     {
         sem->waiting--;
+        checked_lock(&(sem->cs_mutex));
         pthread_cond_signal(&(sem->blocked));
+        checked_unlock(&(sem->cs_mutex));
     }
     else
         sem->active--;
@@ -67,7 +80,7 @@ void sem_post(sem_t* sem)
 
 void sem_getvalue(sem_t* sem, int* val)
 { 
-    pthread_mutex_lock(&(sem->counter_mutex));
+    checked_lock(&(sem->counter_mutex));
     *val = sem->active;
     checked_unlock(&(sem->counter_mutex));
 }

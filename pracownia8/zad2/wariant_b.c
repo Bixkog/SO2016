@@ -13,22 +13,31 @@ char* sem_names[5] = {"/sem0", "/sem1", "/sem2", "/sem3", "/sem4"};
 sem_t* forks[5];
 pid_t children[5];
 
-void eat()
+void eat(int i)
 {
+    printf("Philosopher %d eating.\n", i);
     usleep((rand()%10) * 10000);
 }
 
-void think()
+void think(int i)
 {
+    printf("Philosopher %d thinking.\n", i);
     usleep((rand()%11) * 9900);
 }
 
 void take_forks(int i)
 {
-    sem_wait(forks[i]);
-    sem_wait(forks[(i+1)%5]);
+    if(i < (i+1)%5)
+    {
+        sem_wait(forks[i]);
+        sem_wait(forks[(i+1)%5]);
+    }
+    else
+    {
+        sem_wait(forks[(i+1)%5]);
+        sem_wait(forks[i]);
+    }
 }
-
 void put_forks(int i)
 {
     sem_post(forks[i]);
@@ -39,9 +48,9 @@ void dine(int i)
 {
     while(1)
     {
-        think();
+        think(i);
         take_forks(i);
-        eat();
+        eat(i);
         put_forks(i);
     }
 }
