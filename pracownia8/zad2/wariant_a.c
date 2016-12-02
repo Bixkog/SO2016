@@ -6,9 +6,10 @@
 #include <signal.h>
 #include "sem.h"
 
-pthread_t philosophers[5];
-sem_t forks[5];
-int numbers[5] = {0, 1, 2, 3, 4};
+size_t n = 5;
+pthread_t* philosophers;
+sem_t* forks;
+int* numbers;
 
 void think(int i)
 {
@@ -22,17 +23,17 @@ void eat(int i)
     usleep((pthread_self() % 11) * 10);
 }
 
-void take_forks(int i)
+void take_forks(size_t i)
 {
     pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
-    if(i < (i+1)%5)
+    if(i < (i+1)%n)
     {
         sem_wait(&(forks[i]));
-        sem_wait(&(forks[(i+1)%5]));
+        sem_wait(&(forks[(i+1)%n]));
     }
     else
     {
-        sem_wait(&(forks[(i+1)%5]));
+        sem_wait(&(forks[(i+1)%n]));
         sem_wait(&(forks[i]));
     }
 }
@@ -40,7 +41,7 @@ void take_forks(int i)
 void put_forks(int i)
 {
     sem_post(&(forks[i]));
-    sem_post(&(forks[(i+1)%5]));
+    sem_post(&(forks[(i+1)%n]));
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 }
 
@@ -58,28 +59,45 @@ void* dine(void* i)
 
 void init_forks()
 {
-    int i;
-    for(i = 0; i < 5; i++)
+    forks = calloc(n, sizeof(sem_t));
+    size_t i;
+    for(i = 0; i < n; i++)
         sem_init(&(forks[i]), 1);
+}
+
+void init_numbers()
+{
+    numbers = calloc(n, sizeof(int));
+    size_t i;
+    for(i = 0; i < n; i++)
+        numbers[i] = i;
 }
 
 void create_philosophers()
 {
     init_forks();
-    int i;
-    for(i = 0; i < 5; i++)
+    init_numbers();
+    philosophers = calloc(n, sizeof(pthread_t));
+    size_t i;
+    for(i = 0; i < n; i++)
         pthread_create(&(philosophers[i]), NULL, dine,(void*)&(numbers[i]));
 }
 
+void free_all()
+{
+    free(forks);
+    free(numbers);
+    free(philosophers);
+}
 
 void sigint_handler(int signum)
 {
-    int i;
-    for(i = 0; i < 5; i++)
+    size_t i;
+    for(i = 0; i < n; i++)
     {
         int e = pthread_cancel(philosophers[i]);
-        if(!e) printf("Canceling philosopher %d\n", i);
-        else printf("Unable to cancel philosopher %d\n", i);
+        if(!e) printf("Canceling philosopher %lu\n", i);
+        else printf("Unable to cancel philosopher %lu\n", i);
     }
 }
 
@@ -104,8 +122,9 @@ void set_sigint_handler(struct sigaction* act)
     sigaction(SIGINT, act, NULL);
 }
 
-int main()
+int main(int argc, char** argv)
 {
+    if(argc == 2) n = atoi(argv[1]);
     block_sigint();
     create_philosophers();
     
@@ -114,12 +133,13 @@ int main()
     set_sigint_handler(&act);
     
     void* res;
-    int i;
-    for(i = 0; i < 5; i++)
+    size_t i;
+    for(i = 0; i < n; i++)
     {
         pthread_join(philosophers[i], &res);
-        if(res == PTHREAD_CANCELED) printf("Canceled philosopher %d\n", i);
+        if(res == PTHREAD_CANCELED) printf("Canceled philosopher %lu\n", i);
     }
+    free_all();
     return 0;
 }
 

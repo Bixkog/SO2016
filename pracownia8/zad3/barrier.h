@@ -9,8 +9,8 @@ typedef struct
     size_t size;
     size_t waiting;
     sem_t counter_sem;
-    sem_t blocker_sem;
-
+    sem_t in_sem;
+    sem_t out_sem;
 } barrier_t;
 
 barrier_t* barrier_init(size_t size);

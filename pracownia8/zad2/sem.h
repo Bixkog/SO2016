@@ -6,13 +6,9 @@
 #include <pthread.h>
 
 typedef struct {
-    pthread_mutex_t counter_mutex;
-    pthread_mutex_t cs_mutex;
+    pthread_mutex_t mutex;
     pthread_cond_t blocked;
-    int active;
-    int waiting;
-    int size;
-
+    int counter;
 } sem_t;
 
 void sem_init(sem_t* sem, unsigned value);

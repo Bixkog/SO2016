@@ -13,26 +13,30 @@ barrier_t* barrier_init(size_t size)
     barrier->size = size;
     barrier->waiting = 0;
     sem_init(&(barrier->counter_sem), 1, 1);
-    sem_init(&(barrier->blocker_sem), 1, 0);
+    sem_init(&(barrier->in_sem), 1, size);
+    sem_init(&(barrier->out_sem), 1, 0);
     return barrier;
 }
 
 void barrier_wait(barrier_t* barrier)
 {
     sem_wait(&(barrier->counter_sem));
+    sem_wait(&(barrier->in_sem));
     barrier->waiting++;
     if(barrier->waiting == barrier->size)
     {
-        barrier->waiting = 0;
         unsigned i;
         for(i = 0; i < barrier->size - 1; i++)
-            sem_post(&(barrier->blocker_sem));
+            sem_post(&(barrier->out_sem));
+
         sem_post(&(barrier->counter_sem));
     }
     else
     {
         sem_post(&(barrier->counter_sem));
-        sem_wait(&(barrier->blocker_sem));
+        sem_wait(&(barrier->out_sem));
+        sem
+        sem->waiting--;
     }
 }
 

@@ -47,7 +47,8 @@ void add(list* l, int v)
     
     pthread_mutex_unlock(&(l->add_m));
 }
-
+// reader == writer < deleter
+// dodac draina na readerow, aby nie glodzic delete
 void delete(list* l, int v)
 {
     pthread_mutex_lock(&(l->delete_m));
