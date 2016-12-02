@@ -20,29 +20,35 @@ barrier_t* barrier_init(size_t size)
 
 void barrier_wait(barrier_t* barrier)
 {
-    sem_wait(&(barrier->counter_sem));
     sem_wait(&(barrier->in_sem));
+    sem_wait(&(barrier->counter_sem));
     barrier->waiting++;
-    if(barrier->waiting == barrier->size)
+    if(barrier->waiting == barrier->size) // ostatni ktory powinien wejsc
+    // czyli in jest zamkniete
     {
-        unsigned i;
-        for(i = 0; i < barrier->size - 1; i++)
-            sem_post(&(barrier->out_sem));
-
-        sem_post(&(barrier->counter_sem));
+        size_t i;
+        for(i = 0; i < barrier->size; i++)
+            sem_post(&(barrier->out_sem)); // otwiera out dla n 
     }
-    else
+    sem_post(&(barrier->counter_sem));
+    sem_wait(&(barrier->out_sem)); // czeka na wyjscie
+    // wychodzi
+    sem_wait(&(barrier->counter_sem));
+    barrier->waiting--;
+    if(barrier->waiting == 0) // ostatni wychodzacy
+    // czyli out jest zamkniete
     {
-        sem_post(&(barrier->counter_sem));
-        sem_wait(&(barrier->out_sem));
-        sem
-        sem->waiting--;
+        size_t i;
+        for(i = 0; i < barrier->size; i++)
+            sem_post(&(barrier->in_sem)); // otwiera in
     }
+    sem_post(&(barrier->counter_sem));
 }
 
 void barrier_destroy(barrier_t* barrier)
 {
     sem_destroy(&(barrier->counter_sem));
-    sem_destroy(&(barrier->blocker_sem));
+    sem_destroy(&(barrier->in_sem));
+    sem_destroy(&(barrier->out_sem));
     munmap(barrier, sizeof(barrier_t));
 }
