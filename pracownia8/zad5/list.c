@@ -18,8 +18,11 @@ void list_init(list* l)
     pthread_mutex_init(&(l->add_m), NULL);
     pthread_mutex_init(&(l->delete_m), NULL);
     pthread_mutex_init(&(l->search_m), NULL);
+    pthread_mutex_init(&(l->draining_m), NULL);
     pthread_cond_init(&(l->no_readers), NULL);
+    pthread_cond_init(&(l->drain_rest), NULL);
     l->readers = 0;
+    l->deleters = 0;
 }
 
 void list_destroy(list* l)
@@ -34,11 +37,18 @@ void list_destroy(list* l)
     }
     free(t);
     pthread_mutex_destroy(&(l->add_m));
-    pthread_mutex_destroy(&(l->delete_m));                                                  
+    pthread_mutex_destroy(&(l->delete_m));
+    pthread_mutex_destroy(&(l->search_m));
+    pthread_mutex_destroy(&(l->draining_m));
 }
 
 void add(list* l, int v)
 {
+    pthread_mutex_lock(&(l->draining_m));
+    while(l->deleters > 0)
+        pthread_cond_wait(&(l->drain_rest), &(l->draining_m));
+    pthread_mutex_unlock(&(l->draining_m));
+
     pthread_mutex_lock(&(l->add_m));
     
     node* new = node_init(v, l->end->prev, l->end);
@@ -51,6 +61,10 @@ void add(list* l, int v)
 // dodac draina na readerow, aby nie glodzic delete
 void delete(list* l, int v)
 {
+    pthread_mutex_lock(&(l->draining_m));
+    l->deleters++;
+    pthread_mutex_unlock(&(l->draining_m));
+
     pthread_mutex_lock(&(l->delete_m));
     pthread_mutex_lock(&(l->search_m));
     while(l->readers > 0)
@@ -71,6 +85,11 @@ void delete(list* l, int v)
 
     pthread_mutex_unlock(&(l->add_m));
     pthread_mutex_unlock(&(l->search_m));
+    pthread_mutex_lock(&(l->draining_m));
+    l->deleters--;
+    if(l->deleters == 0)
+        pthread_cond_broadcast(&(l->drain_rest));
+    pthread_mutex_unlock(&(l->draining_m));
     pthread_mutex_unlock(&(l->delete_m));
 }
 
@@ -78,6 +97,11 @@ node* search(list* l, int v)
 {
     node* end;
 
+    pthread_mutex_lock(&(l->draining_m));
+    while(l->deleters > 0)
+        pthread_cond_wait(&(l->drain_rest), &(l->draining_m));
+    pthread_mutex_unlock(&(l->draining_m));
+    
     pthread_mutex_lock(&(l->search_m));
     l->readers++;
     pthread_mutex_unlock(&(l->search_m));

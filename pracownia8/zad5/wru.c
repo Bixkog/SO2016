@@ -18,7 +18,7 @@ void* reader(void* arg)
 {
     while(1)
     {
-        usleep(rand()%500);
+        //usleep(rand()%500);
         printf("Reading!\n");
         pthread_mutex_lock(&(counters_m));
         reads++;
@@ -31,7 +31,7 @@ void* writer(void* arg)
 {
     while(1)
     {
-        usleep(rand()%1000);
+        //usleep(rand()%1000);
         printf("Write!\n");
         pthread_mutex_lock(&(counters_m));
         writes++;
@@ -44,7 +44,7 @@ void* deleter(void* arg)
 {
     while(1)
     {
-        usleep(rand()%1000);
+        //usleep(rand()%1000);
         printf("Delete!\n");
         pthread_mutex_lock(&(counters_m));
         deletitions++;

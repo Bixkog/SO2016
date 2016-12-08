@@ -21,7 +21,10 @@ typedef struct
     pthread_mutex_t add_m;
     pthread_mutex_t delete_m;
     pthread_mutex_t search_m;
+    pthread_mutex_t draining_m;
     pthread_cond_t no_readers;
+    pthread_cond_t drain_rest;
+    size_t deleters;
     size_t readers;
 } list;
 
