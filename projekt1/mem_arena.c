@@ -1,10 +1,13 @@
-#include <sys/ueue.h>
+#include <sys/queue.h>
 #include <unistd.h>
+#include <stddef.h>
+#include <string.h>
 #include <errno.h>
 #include "mem_arena.h"
 
 size_t DEFAULT_ARENA_SIZE = getpagesize()*4;
 size_t PAGE_SIZE = getpagesize();
+size_t MB_STRUCT_RSIZE = offsetof(mem_block_t, mb_data);
 
 // add starting point of mmap
 int create_arena(mem_arena_t** arena, size_t arena_size)
@@ -19,8 +22,7 @@ int create_arena(mem_arena_t** arena, size_t arena_size)
     if(*arena == MAP_FAILED) return 1;
     // initialize fields
     *arena->size = arena_size - sizeof(mem_arena_t);
-    *arena->ma_first.mb_size = *arena->size;
-    pthread_mutex_init(&(arena->ma_lock));
+    *arena->ma_first.mb_size = *arena->size + 16;
     // initialize list
     LIST_INIT(&(*arena->ma_freeblks));
     LIST_INSERT_HEAD(&(*arena->ma_freeblks), &(*arena->ma_first), mb_free_list);
@@ -29,81 +31,8 @@ int create_arena(mem_arena_t** arena, size_t arena_size)
 
 int destroy_arena(mem_arena_t* arena)
 {
-    pthread_mutex_destroy(&(arena->ma_lock)); // needed?
     int err = munmap(arena, arena->size + sizeof(mem_arena_t));
     return err;
-}
-
-size_t calc_new_block_address(size_t start, size_t allocation_size)
-{
-    size_t new_block_address = start + sizeof(mem_block_t) // mem_block struct end
-                               + allocation_size;
-    if(new_block_address%8)
-        new_block_address = ((new_block_address >> 3) + 1) << 3; // allign to 8
-    return new_block_address;
-}
-
-void fill_chunk(mem_block_t* to_allocate, size_t allocation_size)
-{
-    // create new block
-    uint64_t new_block_address = calc_new_block_address((size_t) to_allocate, allocation_size);
-    mem_block_t* free_end = (mem_block_t*) new_block_address;
-    free_end->mb_size = to_allocate->mb_size - allocation_size - sizeof(mem_block_t);
-    // link new block and unlink to_allocate from free list
-    LIST_INSERT_AFTER(to_allocate, free_end, mb_free_list); // add new free block
-    LIST_INSERT_AFTER(to_allocate, free_end, mb_list); // add new block
-    LIST_REMOVE(to_allocate, mb_free_list); // remove to_allocate from free list
-    // allocate block
-    to_allocate->mb_size = -((ssize_t) allocation_size);
-}
-
-void fill_whole(mem_block_t* to_allocate)
-{
-    LIST_REMOVE(to_allocate, mb_free_list);
-    to_allocate->mb_size = -(to_allocate->mb_size);
-}
-
-void* allocate_block(mem_arena_t* arena, size_t allocation_size)
-{
-    pthread_mutex_lock(&(arena->ma_lock));
-    mem_block_t* current_block;
-    LIST_FOREACH(current_block, &(arena->ma_freeblks), mb_free_list)
-    {
-        if(current_block->mb_size >= allocation_size)
-        {   
-            if(current_block->mb_size >= allocation_size + sizeof(mem_block_t) + 8)
-            {
-                fill_chunk(current_block, allocation_size);
-            }
-            else
-            {
-                fill_whole(current_block);
-            }
-            pthread_mutex_unlock(&(arena->ma_lock));
-            return (void*) &(current_block->mb_data);
-        }
-    }
-    pthread_mutex_unlock(&(arena->ma_lock));
-    return NULL;
-}
-
-void* allocate_big_block(size_t allocation_size)
-{
-    // calculate new arena size
-    size_t arena_size = DEFAULT_ARENA_SIZE;
-    while(arena_size < allocation_size)
-        arena_size += PAGE_SIZE;
-    // create arena
-    mem_arena_t* new_arena;
-    if(create_arena(&new_arena, arena_size) > 0)
-        return NULL;
-    // allocate at free arena
-    allocate_block(new_arena, allocation_size);
-
-    // connect arena after alloc
-    pthread_mutex_lock(&arena_list_lock);
-    LIST_INSERT_HEAD(&arena_list, new_arena, ma_list);
-    pthread_mutex_unlock(&arena_list_lock);
 }
 
 // linear to count of arenas
@@ -119,4 +48,122 @@ mem_arena_t* find_arena(uint64_t address)
     }
     return NULL;
 }
+
+void concat_free_blocks(mem_block_t* left, mem_block_t* right)
+{
+    LIST_REMOVE(right, mb_list);
+    LIST_REMOVE(right, mb_free_list);
+    left->mb_size += right->mb_size + MB_STRUCT_RSIZE;
+}
+
+// aligns block, reducing its size at most by alignment bytes. Adds them to previous block
+// it cant be first block
+mem_block_t* align_free_block(mem_block_t* block, size_t alignment)
+{
+    size_t offset = alignment - ((size_t)(block->mb_data) % alignmet);
+    if(offset == 0)
+        return block;
+
+    block->mb_size -= offset;
+    mem_block_t* prev_block = LIST_PREV(block, mb_list);
+    if(prev_block->mb_size > 0)
+        prev_block->mb_size += offset;
+    else
+        prev_block->mb_size -= offset;
+    mem_block_t* new_block_address = (mem_block_t*)((size_t)block + offset);
+    mem_block_t* prev_free_block = LIST_PREV(block, mb_free_list);
+    // remove from lists
+    LIST_REMOVE(block, mb_list);
+    LIST_REMOVE(block, mb_free_list);
+    // move block
+    memmove(block, new_block_address, sizeof(mem_block_t));
+    block = new_block_address;
+    // add to lists
+    LIST_INSERT_AFTER(prev_block, block, mb_list);
+    if(prev_free_block)
+        LIST_INSERT_AFTER(prev_free_block, block, mb_free_list);
+    else
+    {
+        mem_arena_t* arena = find_arena(block);
+        LIST_INSERT_HEAD(&(arena->ma_freeblks), block, mb_free_list);
+    }
+    return block;
+}
+
+// split into 2 where second is aligned and has at lest needed size
+mem_block_t* split_free_block(mem_block_t* block, size_t size, size_t alignment)
+{
+    // calculate place
+    mem_block_t* new_block = (mem_block_t*)((size_t)block->mb_data + block->mb_size 
+                                            - size - MB_STRUCT_RSIZE);
+    
+    // calculate offset
+    size_t offset = (size_t)(new_block->mb_data) % alignment;
+    // move by offset
+    new_block = (mem_arena_t*)((size_t)new_block - offset);
+    // set sizes
+    new_block->mb_size = (size_t) new_block - (size_t) block + MB_STRUCT_RSIZE;
+    block->mb_size = (size + offset);
+    // add to lists
+    LIST_INSERT_AFTER(block, new_block, mb_list);
+    LIST_INSERT_AFTER(block, new_block, mb_free_list);
+    return new_block;
+}
+
+mem_block_t* fill_chunk(mem_block_t* block, size_t size, size_t alignment)
+{
+    // allocate block
+    mem_block_t* to_allocate = split_free_block(block, size, alignment);
+    to_allocate->mb_size = -(to_allocate->mb_size);
+    LIST_REMOVE(to_allocate, mb_free_list);
+    return to_allocate;
+}
+
+void fill_whole(mem_block_t* to_allocate, size_t alignment)
+{
+    align_free_block(to_allocate, alignmet);
+    LIST_REMOVE(to_allocate, mb_free_list);
+    to_allocate->mb_size = -(to_allocate->mb_size);
+}
+
+void* allocate_block(mem_arena_t* arena, size_t allocation_size, size_t alignment)
+{
+    mem_block_t* current_block;
+    LIST_FOREACH(current_block, &(arena->ma_freeblks), mb_free_list)
+    {
+        if(current_block->mb_size >= allocation_size + alignment)
+        {   
+            if(current_block->mb_size >= allocation_size + sizeof(mem_block_t) + alignment)
+            {
+                mem_block_t* to_allocate = fill_chunk(current_block, allocation_size, alignment);
+                return (void*) (to_allocate->mb_data);
+            }
+            else if(current_block != LIST_FIRST(&arena->ma_freeblks)) // corner case
+            {
+                fill_whole(current_block, alignment);
+                return (void*) (current_block->mb_data);
+            }
+        }
+    }
+    return NULL;
+}
+
+void* allocate_big_block(size_t allocation_size, size_t alignment)
+{
+    // calculate new arena size
+    size_t arena_size = DEFAULT_ARENA_SIZE;
+    while(arena_size < allocation_size)
+        arena_size += PAGE_SIZE;
+    // create arena
+    mem_arena_t* new_arena;
+    if(create_arena(&new_arena, arena_size) > 0)
+        return NULL;
+    // allocate at free arena
+    void* ptr = allocate_block(new_arena, allocation_size, alignmet);
+
+    // connect arena after alloc
+    LIST_INSERT_HEAD(&arena_list, new_arena, ma_list);
+    return ptr;
+}
+
 

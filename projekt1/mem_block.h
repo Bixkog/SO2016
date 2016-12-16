@@ -6,6 +6,7 @@
 
 // count 16? bytes of mb_data to allocated memory 
 // maybe reduce mb_size?
+// lock ma_lock before entering arena?
 
 typedef struct mem_block 
 {
