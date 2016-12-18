@@ -6,11 +6,11 @@
 
 // count 16? bytes of mb_data to allocated memory 
 // maybe reduce mb_size?
-// lock ma_lock before entering arena?
 
 typedef struct mem_block 
 {
     LIST_ENTRY(mem_block) mb_list;
+    // mb_size = 16 + space ahead of block
     // mb_size > 0 => block free
     // mb_size < 0 => block allocated
     ssize_T mb_size;

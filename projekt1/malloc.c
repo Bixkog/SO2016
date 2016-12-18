@@ -5,112 +5,175 @@
 #include "mem_arena.h"
 #include "mem_block.h"
 
-void* malloc(size_t size)
+
+int posix_memalign(void** memptr, size_t alignment, size_t size)
 {
-    void* alloc_pointer;
-    if(size >= PAGE_SIZE*2)
+    if(size == 0)
     {
-        alloc_pointer = allocate_big_block(size);
-        if(alloc_pointer == NULL)
-            errno = ENOMEM;
-        return alloc_pointer;
+        *memptr = NULL;
+        return 0;
+    }
+    // validate alignment
+    if(alignment & (alignment - 1) == 0 || alignment % sizeof(void*) != 0)
+        return EINVAL;
+
+    pthread_mutex_lock(&mem_lock);
+    if(size + alignment >= PAGE_SIZE*2)
+    {
+        *memptr = allocate_big_block(size, alignment);
+        pthread_mutex_unlock(&mem_lock);
+        if(*memptr == NULL)
+            return ENOMEM;
+        return 0;
     }
     else
     {
         mem_arena_t* arena;
         LIST_FOREACH(arena, &arena_list, ma_list)
         {
-            alloc_pointer = allocate_block(arena, size);
-            if(alloc_pointer != NULL)
-                return alloc_pointer;
+            *memptr = allocate_block(arena, size, alignment);
+            if(*memptr != NULL)
+            {
+                pthread_mutex_unlock(&mem_lock);
+                return 0;
+            }
         }
-        alloc_pointer = allocate_big_block(size);
-        if(alloc_pointer == NULL)
-            errno = ENOMEM;
-        return alloc_pointer;
+        *memptr = allocate_big_block(size, alignment);
+        pthread_mutex_unlock(&mem_lock);
+        if(*memptr == NULL)
+            return ENOMEM;
+        return 0;
     }
 }
 
-void* calloc(size_t count, size_t size)
+void* malloc(size_t size)
 {
-    void* allocated_memory = malloc(count*size);
-    if(allocated_memory == NULL)
+    pthread_mutex_lock(&mem_lock);
+    void* ptr;
+    if(posix_memalign(&ptr, 8, size) == ENOMEM)
+    {
+        errno = ENOMEM;
+        ptrhead_mutex_unlock(&mem_lock);
         return NULL;
-    return memset(allocated_memory, 0, count*size);
+    }
+    pthread_mutex_unlock(&mem_lock);
+    return ptr;
 }
 
-void free(void* address)
+void* calloc(size_t nmemb, size_t size)
+{
+    pthread_mutex_lock(&mem_lock);
+    void* allocated_memory = malloc(nmemb*size);
+    pthread_mutex_unlock(&mem_lock);
+    if(allocated_memory == NULL)
+        return NULL;
+    return memset(allocated_memory, 0, nmemb*size);
+}
+
+void free(void* ptr)
 {
     if(adress == NULL)
         return;
-    mem_arena_t* arena = find_arena((uint64_t) address);
+    pthread_mutex_lock(&arena_lock);
+    mem_arena_t* arena = find_arena((uint64_t) ptr);
     if(arena == NULL)
+    {
+        pthread_mutex_unlock(&mem_lock);
         return; // segfault?
-    pthread_mutex_lock(&(arena->ma_lock));
-    uint64_t offset = 24; // distance in mem_block_t from beginning to mb_data
-    mem_block_t* block = (mem_block_t*)((uint64_t) address  - offset);
+    }
+    // get block from address
+    mem_block_t* block = (mem_block_t*)((uint64_t) ptr  - MB_STRUCT_SIZE);
     if(block->mb_size > 0) // double free?
     {
-        pthread_mutex_unlock(&(arena->ma_lock));
+        pthread_mutex_unlock(&(mem_lock));
         return;
     }
     block->mb_size = -(block->mb_size);
-    
+
     mem_block_t* next_block = LIST_NEXT(block, mb_list);
     mem_block_t* prev_block = LIST_PREV(block, mb_list);
-    mem_block_t* prev_free_block = prev_block;
-
-    if(next_block == NULL || next_block->mb_size < 0 &&
-       prev_block == NULL || prev_block->mb_size < 0)
+    
+    if((next_block == NULL || next_block->mb_size < 0) &&
+       (prev_block == NULL || prev_block->mb_size < 0))
     {
-        // freeing last block -> free arena?
-        if(next_block == NULL && prev_block == NULL)
-        {
-            pthread_mutex_lock(&arena_list_mutex);
-
-            LIST_REMOVE(arena, ma_list);
-            pthread_mutex_unlock(&arena_list_mutex);
-            pthread_mutex_unlock(&(arena->ma_lock));
-            destroy_arena(arena);
-            return;
-        }
-        // find prev free block
-        while(prev_free_block && prev_free_block->mb_size < 0)
-            prev_free_block = LIST_PREV(prev_free_block, mb_list);
+        mem_block_t* prev_free_block = find_prev_free_block(block); 
         // insert to free blocks
-        // should be done after concatenation of free blocks, maybe able to omit
-        if(prev_free_block != NULL)
+        if(prev_free_block)
             LIST_INSERT_AFTER(prev_free_block, block, mb_free_list);
         else
             LIST_INSERT_HEAD(&(arena->ma_freeblks), block, mb_free_list);
     }
-    else if(next_block == NULL || next_block->mb_size < 0 &&
-            prev_block->mb_size > 0)
+    else
     {
-        LIST_REMOVE(block, mb_list);
-        prev_block->mb_size += sizeof(mem_block_t) + block->mb_size;
+        if(next_block && next_block->mb_size > 0)
+        {
+            concat_free_blocks(block, next_block);
+            next_block = LIST_NEXT(block);
+        }
+        if(prev_block && prev_block->mb_size > 0)
+        {
+            concat_free_blocks(prev_block, block);
+            block = prev_block;
+            prev_block = LIST_PREV(block);
+        }
     }
-    else if(next_block->mb_size > 0 &&
-            prev_block == NULL || prev_block->mb_size < 0)
+    // unmap arena if needed
+    if(prev_block == NULL && next_block == NULL && // last block
+        (LIST_FIRST(arena_list) != arena  || LIST_NEXT(arena, ma_list) == NULL)) // not last arena
     {
-        // block <- next_block
-        block->mb_size += sizeof(mem_block_t)  + next_block->mb_size;
-        LIST_INSERT_BEFORE(block, next_block, ma_freeblks);
-        // remove next_block from lists
-        LIST_REMOVE(next_block, mb_list);
-        LIST_REMOVE(next_block, mb_free_list);
+        LIST_REMOVE(arena, ma_list);
+        destroy_arena(arena);
     }
-    else if(next_block->mb_size > 0 &&
-            prev_block->mb_size > 0)
-    {
-        // prev_block <- block + next_block
-        prev_block->mb_size += sizeof(mem_block_t) + block->mb_size +
-                               sizeof(mem_block_t) + next_block->mb_size;
-        LIST_REMOVE(block, mb_list);
-        LIST_REMOVE(next_block, mb_list);
-
-        LIST_REMOVE(next_block, mb_free_list);
-    }
-    pthread_mutex_unlock(&(arena->ma_lock));
+    pthread_mutex_unlock(&mem_lock);
     return;
+}
+
+void* realloc(void* ptr, size_t size)
+{
+    if(ptr == NULL)
+        return malloc(size);
+    if(size == 0)
+    {
+        free(ptr);
+        return ptr;
+    }
+    pthread_mutex_lock(&mem_lock);
+    mem_arena_t* arena = find_arena((uint64_t)ptr);
+    if(arena == NULL)
+    {
+        pthread_mutex_unlock(&mem_lock);
+        return NULL;
+    }
+    // get block from address
+    mem_block_t* block = (mem_block_t*)((uint64_t) ptr  - MB_STRUCT_SIZE);
+    size_t old_size = -(block->mb_size);
+    if(old_size > size)
+    {
+        reduce_block(arena, block, size);
+    }
+    else if(old_size < size)
+    {
+        mem_block_t* next_block = LIST_NEXT(block, mb_list);
+        if(next_block == NULL || next_block->mb_size < 0 || // no more space
+           size > old_size + next_block->mb_size + MB_STRUCT_SIZE) // not enough space
+        {
+            // need to move
+            void* new_ptr = malloc(size);
+            memcpy(new_ptr, ptr, -(block->mb_size));
+            free(ptr);
+            pthread_mutex_unlock(&mem_lock);
+            return new_ptr;
+        }
+        else if(size <= old_size + next_block->mb_size + MB_STRUCT_SIZE)
+        {
+            // can resize
+            // join next block
+            block->mb_size = -(old_size + next_block->mb_size + MB_STRUCT_SIZE);
+            LIST_REMOVE(next_block, mb_free_list);
+            LIST_REMOVE(next, mb_list);
+            reduce(arena, block, size);
+        }
+    }
+    pthread_mutex_unlock(&mem_lock);
+    return ptr;
 }
