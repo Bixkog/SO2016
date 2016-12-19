@@ -8,6 +8,7 @@
 
 extern pthread_mutex_t mem_lock;
 extern struct mb_list_head* NO_HEAD;
+extern size_t free_memory;
 
 int posix_memalign(void** memptr, size_t alignment, size_t size)
 {
@@ -95,9 +96,10 @@ void free(void* ptr)
     mem_block_t* next_block = LIST_NEXT(block, mb_list);
     mem_block_t* prev_block = LIST_PREV(block, NO_HEAD, mem_block, mb_list);
     mem_block_t* prev_free_block = find_prev_free_block(block); 
-    
+ 
     // free block
     block->mb_size = -(block->mb_size);
+    free_memory += block->mb_size;
     if(prev_free_block)
         LIST_INSERT_AFTER(prev_free_block, block, mb_free_list);
     else
@@ -117,7 +119,7 @@ void free(void* ptr)
     }
     // unmap arena if needed
     if(prev_block == NULL && next_block == NULL && // last block
-        (LIST_FIRST(&arena_list) != arena  || LIST_NEXT(arena, ma_list) == NULL)) // not last arena
+        free_memory >= (size_t) PAGE_SIZE*8)
     {
         LIST_REMOVE(arena, ma_list);
         destroy_arena(arena);
@@ -185,15 +187,19 @@ void print_mem_structs()
     printf("PRINTING MEMORY STRUCTURE---------------------------\n");
     LIST_FOREACH(arena, &arena_list, ma_list)
     {
-        printf("ARENA: %p SIZE: %lu\n", arena, arena->size);
+        printf("ARENA: %p SIZE: %lu\n", arena, arena->size + sizeof(mem_block_t));
         if((size_t) arena < previous_arena + previous_arena_size)
         {
             printf("WRONG ADDRESS OF ARENA: %p\n", arena);
         }
         mem_block_t* block = &(arena->ma_first);
         mem_block_t* prev_block = NULL;
+        size_t memory_used = 0;
         while(block)
         {
+            memory_used += MB_STRUCT_RSIZE;
+            memory_used += block->mb_size > 0 ? block->mb_size : -(block->mb_size);
+
             printf("Block: %p MB_Size: %ld ", block, block->mb_size);
             if(block->mb_size > 0)
             {
@@ -207,15 +213,19 @@ void print_mem_structs()
             
             if(block->mb_list.le_prev && *(block->mb_list.le_prev) != block)
                 printf("MB_LIST CORRUPTED AT: %p\n", block);
-            if((size_t)block->mb_data + block->mb_size > (size_t) arena + arena->size)
+            if((size_t)block->mb_data + block->mb_size > 
+                    (size_t) arena + arena->size + sizeof(mem_arena_t))
                 printf("Block out of arena, blocks end: %lu, arenas end: %lu\n", 
-                        (size_t)block->mb_data + block->mb_size, (size_t) arena + arena->size);
+                        (size_t)(block->mb_data) + block->mb_size, (size_t) arena + arena->size);
             if(prev_block && (size_t) prev_block + prev_block->mb_size > (size_t)block)
                 printf("WRONG PLACEMENT OF BLOCK: %p, COLIDES WITH: (%p, %lu)\n", 
                         block, prev_block, (size_t) prev_block + prev_block->mb_size);
             prev_block = block;
             block = LIST_NEXT(block, mb_list);
         }
+        printf("Used memory: %lu\n", memory_used);
+        if(memory_used != (arena->size + sizeof(mem_block_t)))
+            printf("NOT ALL ARENA USED\n");
         previous_arena = (size_t) arena;
         previous_arena_size = arena->size;
     }
