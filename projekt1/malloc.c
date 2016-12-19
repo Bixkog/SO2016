@@ -2,9 +2,12 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <stdio.h>
 #include "mem_arena.h"
 #include "mem_block.h"
 
+extern pthread_mutex_t mem_lock;
+extern struct mb_list_head* NO_HEAD;
 
 int posix_memalign(void** memptr, size_t alignment, size_t size)
 {
@@ -14,7 +17,7 @@ int posix_memalign(void** memptr, size_t alignment, size_t size)
         return 0;
     }
     // validate alignment
-    if((alignment & (alignment - 1)) == 0 || alignment % sizeof(void*) != 0)
+    if((alignment & (alignment - 1)) != 0 || alignment % sizeof(void*) != 0)
         return EINVAL;
 
     pthread_mutex_lock(&mem_lock);
@@ -88,34 +91,29 @@ void free(void* ptr)
         pthread_mutex_unlock(&(mem_lock));
         return;
     }
-    block->mb_size = -(block->mb_size);
 
     mem_block_t* next_block = LIST_NEXT(block, mb_list);
-    mem_block_t* prev_block = LIST_PREV(block, &(arena->ma_freeblks), mem_block, mb_list);
+    mem_block_t* prev_block = LIST_PREV(block, NO_HEAD, mem_block, mb_list);
+    mem_block_t* prev_free_block = find_prev_free_block(block); 
     
-    if((next_block == NULL || next_block->mb_size < 0) &&
-       (prev_block == NULL || prev_block->mb_size < 0))
-    {
-        mem_block_t* prev_free_block = find_prev_free_block(arena, block); 
-        // insert to free blocks
-        if(prev_free_block)
-            LIST_INSERT_AFTER(prev_free_block, block, mb_free_list);
-        else
-            LIST_INSERT_HEAD(&(arena->ma_freeblks), block, mb_free_list);
-    }
+    // free block
+    block->mb_size = -(block->mb_size);
+    if(prev_free_block)
+        LIST_INSERT_AFTER(prev_free_block, block, mb_free_list);
     else
+        LIST_INSERT_HEAD(&(arena->ma_freeblks), block, mb_free_list);
+    
+    // concat with free neighbours
+    if(next_block && next_block->mb_size > 0)
     {
-        if(next_block && next_block->mb_size > 0)
-        {
-            concat_free_blocks(block, next_block);
-            next_block = LIST_NEXT(block, mb_list);
-        }
-        if(prev_block && prev_block->mb_size > 0)
-        {
-            concat_free_blocks(prev_block, block);
-            block = prev_block;
-            prev_block = LIST_PREV(block, &(arena->ma_freeblks), mem_block, mb_list);
-        }
+        concat_free_blocks(block, next_block);
+        next_block = LIST_NEXT(block, mb_list);
+    }
+    if(prev_block && prev_block->mb_size > 0)
+    {
+        concat_free_blocks(prev_block, block);
+        block = prev_block;
+        prev_block = LIST_PREV(block, NO_HEAD, mem_block, mb_list);
     }
     // unmap arena if needed
     if(prev_block == NULL && next_block == NULL && // last block
@@ -176,4 +174,49 @@ void* realloc(void* ptr, size_t size)
     }
     pthread_mutex_unlock(&mem_lock);
     return ptr;
+}
+
+
+void print_mem_structs()
+{
+    mem_arena_t* arena;
+    size_t previous_arena_size = 0;
+    size_t previous_arena = 0;
+    printf("PRINTING MEMORY STRUCTURE---------------------------\n");
+    LIST_FOREACH(arena, &arena_list, ma_list)
+    {
+        printf("ARENA: %p SIZE: %lu\n", arena, arena->size);
+        if((size_t) arena < previous_arena + previous_arena_size)
+        {
+            printf("WRONG ADDRESS OF ARENA: %p\n", arena);
+        }
+        mem_block_t* block = &(arena->ma_first);
+        mem_block_t* prev_block = NULL;
+        while(block)
+        {
+            printf("Block: %p MB_Size: %ld ", block, block->mb_size);
+            if(block->mb_size > 0)
+            {
+                if(*(block->mb_free_list.le_prev) != block)
+                    printf("MB_FREE_LIST CORRUPTED AT: %p\n", block);
+                else
+                    printf("\n");
+            }
+            else
+                printf("Data: %p\n", block->mb_data);
+            
+            if(block->mb_list.le_prev && *(block->mb_list.le_prev) != block)
+                printf("MB_LIST CORRUPTED AT: %p\n", block);
+            if((size_t)block->mb_data + block->mb_size > (size_t) arena + arena->size)
+                printf("Block out of arena, blocks end: %lu, arenas end: %lu\n", 
+                        (size_t)block->mb_data + block->mb_size, (size_t) arena + arena->size);
+            if(prev_block && (size_t) prev_block + prev_block->mb_size > (size_t)block)
+                printf("WRONG PLACEMENT OF BLOCK: %p, COLIDES WITH: (%p, %lu)\n", 
+                        block, prev_block, (size_t) prev_block + prev_block->mb_size);
+            prev_block = block;
+            block = LIST_NEXT(block, mb_list);
+        }
+        previous_arena = (size_t) arena;
+        previous_arena_size = arena->size;
+    }
 }

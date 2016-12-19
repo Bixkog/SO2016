@@ -6,6 +6,9 @@
 #include <errno.h>
 #include "mem_arena.h"
 
+pthread_mutex_t mem_lock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
+struct mb_list_head* NO_HEAD = NULL;
+
 // add starting point of mmap
 int create_arena(mem_arena_t** arena, size_t arena_size)
 {
@@ -45,12 +48,16 @@ mem_arena_t* find_arena(uint64_t address)
     return NULL;
 }
 
-mem_block_t* find_prev_free_block(mem_arena_t* arena, mem_block_t* block)
+mem_block_t* find_prev_free_block(mem_block_t* block)
 {
-    mem_block_t* prev_free_block = LIST_PREV(block, &(arena->ma_freeblks), mem_block, mb_list);
-    while(prev_free_block && prev_free_block->mb_size < 0)
-        prev_free_block = LIST_PREV(block, &(arena->ma_freeblks), mem_block, mb_list);
-    return prev_free_block;
+    mem_block_t* prev_block = NULL;
+    block = LIST_PREV(block, NO_HEAD, mem_block, mb_list);
+    while(block && block != prev_block && block->mb_size < 0)
+    {
+        prev_block = block;
+        block = LIST_PREV(block, NO_HEAD, mem_block, mb_list);
+    }
+    return block;
 }
 
 void concat_free_blocks(mem_block_t* left, mem_block_t* right)
@@ -75,7 +82,7 @@ mem_block_t* align_free_block(mem_arena_t* arena, mem_block_t* block, size_t ali
     else
         prev_block->mb_size -= offset;
     mem_block_t* new_block_address = (mem_block_t*)((size_t)block + offset);
-    mem_block_t* prev_free_block = LIST_PREV(block, &(arena->ma_freeblks), mem_block,  mb_list);
+    mem_block_t* prev_free_block = LIST_PREV(block, NO_HEAD, mem_block,  mb_list);
     // remove from lists
     LIST_REMOVE(block, mb_list);
     LIST_REMOVE(block, mb_free_list);
@@ -125,7 +132,7 @@ void reduce_block(mem_arena_t* arena, mem_block_t* block, size_t size)
     block->mb_size = -size; // still allocated
     // insert to lists
     LIST_INSERT_AFTER(block, new_block, mb_list);
-    mem_block_t* prev_free_block = find_prev_free_block(arena, new_block);
+    mem_block_t* prev_free_block = find_prev_free_block(new_block);
     if(prev_free_block)
         LIST_INSERT_AFTER(prev_free_block, new_block, mb_free_list);    
     else

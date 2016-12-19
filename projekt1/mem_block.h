@@ -5,8 +5,7 @@
 #include <sys/types.h>
 #include <stdint.h>
 
-// count 16? bytes of mb_data to allocated memory 
-// maybe reduce mb_size?
+LIST_HEAD(mb_list_head, mem_block);
 
 typedef struct mem_block 
 {
