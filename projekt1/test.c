@@ -33,4 +33,12 @@ int main()
     print_mem_structs();
     free(tab);
     print_mem_structs();
+    for(size_t i = 1; i < 10; i++)
+    {
+        int e = posix_memalign(&p, 2048, 100000000*i);
+        printf("error = %d\n", e);
+        if(!p) printf("NULL POINTER--------------------------------------\n");
+        else test_memory(p, 100000000*i);
+        print_mem_structs();
+    }
 }

@@ -76,7 +76,7 @@ void concat_free_blocks(mem_block_t* left, mem_block_t* right)
 mem_block_t* align_free_block(mem_arena_t* arena, mem_block_t* block, size_t alignment)
 {
     size_t offset = alignment - ((size_t)(block->mb_data) % alignment);
-    if(offset == 0)
+    if(offset == alignment)
         return block;
 
     block->mb_size -= offset;
@@ -94,7 +94,7 @@ mem_block_t* align_free_block(mem_arena_t* arena, mem_block_t* block, size_t ali
     block = new_block_address;
     // add to lists
     LIST_INSERT_AFTER(prev_block, block, mb_list);
-    if(prev_free_block)
+    if(prev_free_block && prev_free_block->mb_size > 0)
         LIST_INSERT_AFTER(prev_free_block, block, mb_free_list);
     else
         LIST_INSERT_HEAD(&(arena->ma_freeblks), block, mb_free_list);
@@ -187,7 +187,12 @@ void* allocate_block(mem_arena_t* arena, size_t allocation_size, size_t alignmen
 
 void* allocate_big_block(size_t allocation_size, size_t alignment)
 {
-    size_t arena_size = (((allocation_size + alignment) / PAGE_SIZE) + 1) * PAGE_SIZE; 
+
+    size_t arena_size;
+    if(allocation_size + alignment < (size_t) DEFAULT_ARENA_SIZE) 
+        arena_size = DEFAULT_ARENA_SIZE;
+    else    
+        arena_size = (((allocation_size + alignment) / PAGE_SIZE) + 1) * PAGE_SIZE; 
     mem_arena_t* new_arena;
     if(create_arena(&new_arena, arena_size) > 0)
         return NULL;

@@ -9,7 +9,7 @@
 
 #define __uintptr_t uintptr_t
 #define PAGE_SIZE getpagesize()
-#define DEFAULT_ARENA_SIZE  PAGE_SIZE*4;
+#define DEFAULT_ARENA_SIZE  PAGE_SIZE*4
 #define MB_STRUCT_RSIZE  offsetof(mem_block_t, mb_data)
 
 typedef struct mem_arena
