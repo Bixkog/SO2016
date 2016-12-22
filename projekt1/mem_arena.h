@@ -35,7 +35,7 @@ mem_block_t* split_free_block(mem_block_t* block, size_t size, size_t alignment)
 void reduce_block(mem_arena_t* arena, mem_block_t* block, size_t size);
 
 mem_block_t* fill_chunk(mem_block_t* block, size_t size, size_t alignment);
-void fill_whole(mem_arena_t* arena, mem_block_t* block, size_t alignment);
+mem_block_t* fill_whole(mem_arena_t* arena, mem_block_t* block, size_t alignment);
 
 void* allocate_block(mem_arena_t* arena, size_t allocation_size, size_t alignment);
 void* allocate_big_block(size_t allocation_size, size_t alignment);

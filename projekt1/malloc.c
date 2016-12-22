@@ -139,6 +139,7 @@ void* realloc(void* ptr, size_t size)
         free(ptr);
         return ptr;
     }
+    if(size < 16) size = 16;
     pthread_mutex_lock(&mem_lock);
     mem_arena_t* arena = find_arena((uint64_t)ptr);
     if(arena == NULL)
@@ -161,7 +162,7 @@ void* realloc(void* ptr, size_t size)
         {
             // need to move
             void* new_ptr = malloc(size);
-            memcpy(new_ptr, ptr, -(block->mb_size));
+            memcpy(new_ptr, ptr, old_size);
             free(ptr);
             pthread_mutex_unlock(&mem_lock);
             return new_ptr;

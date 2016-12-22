@@ -23,7 +23,7 @@ int create_arena(mem_arena_t** arena, size_t arena_size)
     if(*arena == MAP_FAILED) return 1;
     // initialize fields
     (*arena)->size = arena_size - sizeof(mem_arena_t); 
-    (*arena)->ma_first.mb_size = (*arena)->size + 16;
+    (*arena)->ma_first.mb_size = (*arena)->size + (sizeof(mem_block_t) - MB_STRUCT_RSIZE);
     free_memory += (*arena)->ma_first.mb_size;
     // initialize list
     LIST_INIT(&((*arena)->ma_freeblks));
@@ -45,7 +45,7 @@ mem_arena_t* find_arena(uint64_t address)
     LIST_FOREACH(current_arena, &arena_list, ma_list)
     {
         if((uint64_t) current_arena < address && 
-           (uint64_t) current_arena + current_arena->size > address)
+           (uint64_t) current_arena + current_arena->size + sizeof(mem_arena_t) > address)
             return current_arena;
     }
     return NULL;
@@ -80,12 +80,13 @@ mem_block_t* align_free_block(mem_arena_t* arena, mem_block_t* block, size_t ali
         return block;
 
     block->mb_size -= offset;
-    mem_block_t* prev_block = LIST_PREV(block, &(arena->ma_freeblks), mem_block,  mb_list);
+    mem_block_t* prev_block = LIST_PREV(block, NO_HEAD, mem_block,  mb_list);
     prev_block->mb_size -= offset; // assuming it can't be free block
     free_memory -= offset;
     
     mem_block_t* new_block_address = (mem_block_t*)((size_t)block + offset);
-    mem_block_t* prev_free_block = LIST_PREV(block, NO_HEAD, mem_block,  mb_list);
+    mem_block_t* prev_free_block = 
+        LIST_PREV(block, &(arena->ma_freeblks), mem_block,  mb_free_list);
     // remove from lists
     LIST_REMOVE(block, mb_list);
     LIST_REMOVE(block, mb_free_list);
@@ -154,12 +155,13 @@ mem_block_t* fill_chunk(mem_block_t* block, size_t size, size_t alignment)
     return to_allocate;
 }
 
-void fill_whole(mem_arena_t* arena, mem_block_t* block, size_t alignment)
+mem_block_t* fill_whole(mem_arena_t* arena, mem_block_t* block, size_t alignment)
 {
-    align_free_block(arena, block, alignment);
+    block = align_free_block(arena, block, alignment);
     LIST_REMOVE(block, mb_free_list);
     free_memory -= block->mb_size;
     block->mb_size = -(block->mb_size);
+    return block;
 }
 
 void* allocate_block(mem_arena_t* arena, size_t allocation_size, size_t alignment)
@@ -170,14 +172,15 @@ void* allocate_block(mem_arena_t* arena, size_t allocation_size, size_t alignmen
         if(current_block->mb_size > 0 &&   
             (size_t) current_block->mb_size >= allocation_size + alignment)
         {   
-            if((size_t) current_block->mb_size >= allocation_size + sizeof(mem_block_t) + alignment)
+            if((size_t) current_block->mb_size >= 
+                    allocation_size + 16 + sizeof(mem_block_t) + alignment)
             {
                 mem_block_t* to_allocate = fill_chunk(current_block, allocation_size, alignment);
                 return (void*) (to_allocate->mb_data);
             }
             else if(current_block != LIST_FIRST(&arena->ma_freeblks)) // corner case
             {
-                fill_whole(arena, current_block, alignment);
+                current_block = fill_whole(arena, current_block, alignment);
                 return (void*) (current_block->mb_data);
             }
         }
@@ -189,10 +192,11 @@ void* allocate_big_block(size_t allocation_size, size_t alignment)
 {
 
     size_t arena_size;
-    if(allocation_size + alignment < (size_t) DEFAULT_ARENA_SIZE) 
+    if(allocation_size + alignment + sizeof(mem_arena_t) < (size_t) DEFAULT_ARENA_SIZE) 
         arena_size = DEFAULT_ARENA_SIZE;
     else    
-        arena_size = (((allocation_size + alignment) / PAGE_SIZE) + 1) * PAGE_SIZE; 
+        arena_size = (((allocation_size + alignment + sizeof(mem_arena_t)) / 
+                        PAGE_SIZE) + 1) * PAGE_SIZE; 
     mem_arena_t* new_arena;
     if(create_arena(&new_arena, arena_size) > 0)
         return NULL;
